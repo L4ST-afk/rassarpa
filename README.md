@@ -1,6 +1,7 @@
 # 罗蛇 · Rassarpa
 
-[![selfcheck](https://github.com/L4ST-afk/rassarpa/actions/workflows/selfcheck.yml/badge.svg)](.github/workflows/selfcheck.yml)
+[![selfcheck](https://github.com/L4ST-afk/rassarpa/actions/workflows/selfcheck.yml/badge.svg)](https://github.com/L4ST-afk/rassarpa/actions/workflows/selfcheck.yml)
+[![Release](https://img.shields.io/github/v/release/L4ST-afk/rassarpa?color=2f6f4f)](https://github.com/L4ST-afk/rassarpa/releases/latest)
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 `Rassarpa` · [English](README.en.md)
@@ -57,6 +58,8 @@ W3C 那篇讲行内空白的文章至今写「目前没有浏览器会在不加�
 ## 当作 agent skill 用
 
 整个目录放进宿主 skills 根，`SKILL.md` 即判据正本（356 行，含反例、何时用／不用、体量预算、上游声明）。细则卷按问题取，⛔ 不通读七卷。
+
+不想克隆：去 [Releases](https://github.com/L4ST-afk/rassarpa/releases/latest) 下 `rassarpa-0.1.0-开箱包.zip`，解压即得一整个技能目录（六项交付面全绿、疫苗词零残留）。
 
 判据只有一份正本：`SKILL.md`。与细则卷冲突时，改细则卷。
 
