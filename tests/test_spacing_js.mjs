@@ -17,8 +17,15 @@ const SRC = fs.readFileSync(path.join(ROOT, 'tools/cjk_spacing.js'), 'utf8')
 let pass = 0
 let fail = 0
 
-function run(html, selector = '.cjk', times = 1) {
+function run(html, selector = '.cjk', times = 1, supportsLookbehind = true) {
   const dom = new JSDOM(`<!doctype html><html lang="zh-CN"><body>${html}</body></html>`, { runScripts: 'outside-only' })
+  if (!supportsLookbehind) {
+    const NativeRegExp = dom.window.RegExp
+    dom.window.RegExp = function (pattern, flags) {
+      if (typeof pattern === 'string' && pattern.includes('(?<=')) throw new SyntaxError('lookbehind unsupported')
+      return new NativeRegExp(pattern, flags)
+    }
+  }
   dom.window.eval(SRC)
   for (let i = 0; i < times; i++) dom.window.eval(`new CJKSpacing('${selector}').run()`)
   return dom.window.document.body
@@ -85,6 +92,31 @@ console.log('cjk_spacing.js 行为回归：')
   const body = run('<p class="cjk">中 a 中（（</p>')
   const p = body.querySelector('p')
   check('空格与挤压可共存', p.textContent === '中 a 中（（' && p.querySelector('cjk-adjacent'), p.innerHTML)
+}
+
+// 8 不支持 lookbehind：降级正则只包西文/标点，不能吞掉相邻正文
+{
+  const body = run('<p class="cjk">a中</p>', '.cjk', 1, false)
+  const p = body.querySelector('p')
+  const box = p.querySelector('cjk-spacing')
+  check('降级时西文在汉字前不吞汉字', p.textContent === 'a中' && box?.textContent === 'a' && box.className === 'cjk-spacing-start', p.innerHTML)
+}
+{
+  const body = run('<p class="cjk">中a</p>', '.cjk', 1, false)
+  const p = body.querySelector('p')
+  const box = p.querySelector('cjk-spacing')
+  check('降级时西文在汉字后不吞汉字', p.textContent === '中a' && box?.textContent === 'a' && box.className === 'cjk-spacing-end', p.innerHTML)
+}
+{
+  const body = run('<p class="cjk">中a中</p>', '.cjk', 1, false)
+  const p = body.querySelector('p')
+  const box = p.querySelector('cjk-spacing')
+  check('降级时汉字只作边界、不进间隙盒', p.textContent === '中a中' && box?.textContent === 'a' && box.className === 'cjk-spacing-start cjk-spacing-end', p.innerHTML)
+}
+{
+  const body = run('<p class="cjk">（（</p>', '.cjk', 1, false)
+  const p = body.querySelector('p')
+  check('降级时标点挤压不吞相邻标点', p.textContent === '（（' && p.querySelector('cjk-adjacent')?.textContent === '（', p.innerHTML)
 }
 
 console.log(`\n${fail ? 'FAIL' : 'ALL OK'}｜pass ${pass}｜fail ${fail}`)

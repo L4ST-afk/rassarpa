@@ -108,7 +108,6 @@
     try { new RegExp('(?<=x)x', 'g').test('') } catch (e) { lookbehind = false }
     this.lookbehind = lookbehind
     this.re = makeRegExps(lookbehind)
-    this.offset = lookbehind ? 0 : 1
   }
 
   CJKSpacing.prototype.run = function () {
@@ -138,8 +137,11 @@
         var last = 0
         var m
         while ((m = rule.re.exec(s))) {
-          if (m.index > last) frag.appendChild(document.createTextNode(s.slice(last, m.index)))
-          var matched = m[0]
+          // 降级正则在 full/end 匹配中会带上前一个汉字；它留在正文，不进间隙盒。
+          var prefixLength = !self.lookbehind && (rule.cls === 'both' || rule.cls === 'end') ? 1 : 0
+          var matchStart = m.index + prefixLength
+          if (matchStart > last) frag.appendChild(document.createTextNode(s.slice(last, matchStart)))
+          var matched = m[0].slice(prefixLength)
           // 中西文间隙用 cjk-spacing；标点挤压用 cjk-adjacent
           var isSpacing = (rule.cls === 'both' || rule.cls === 'start' || rule.cls === 'end')
           var el
@@ -147,7 +149,7 @@
             // 边界上已经有人打了 ASCII 空格：⛔ 不插盒，更⛔ 不删字符。
             // trim 会把两侧空格吃掉，`中 a 中` 就变成 `中a中`——复制、检索、翻译全丢。
             frag.appendChild(document.createTextNode(matched))
-            last = m.index + matched.length + (self.offset || 0)
+            last = m.index + m[0].length
             rule.re.lastIndex = last
             continue
           }
@@ -163,7 +165,7 @@
             el.textContent = matched
           }
           frag.appendChild(el)
-          last = m.index + matched.length + (self.offset || 0)
+          last = m.index + m[0].length
           rule.re.lastIndex = last
         }
         if (last < s.length) frag.appendChild(document.createTextNode(s.slice(last)))
