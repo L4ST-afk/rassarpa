@@ -1,0 +1,100 @@
+/*
+ * cjk-typo.css — 罗蛇Rassarpa 开箱样式（判据装配层）
+ *
+ * 全部取值出自本 skill 已载判据，出处逐段标注；使用方按令牌覆写，⛔ 不改规则本体。
+ * 接入三步（SKILL.md §5.3）：
+ *   1. <link rel="stylesheet" href="cjk-typo.css">
+ *   2. 根容器加 class="cjk"（T01：<html lang="zh-CN"> 仍须自己声明，CSS 替代不了）
+ *   3. 可选：<script>new CJKSpacing('.cjk').run()</script>（标点挤压＋中西文间隙，见 tools/cjk_spacing.js）
+ */
+
+/* ---------- 令牌（主题只调令牌，不重写规则 —— references/主题预设.md） ---------- */
+.cjk {
+  /* T13 字体栈：系统优先、零授权风险（四档 🟢 侧；授权红线见 references/字体授权与合规.md） */
+  --cjk-font-sans: "PingFang SC", "Microsoft YaHei", "Source Han Sans SC",
+                   "Noto Sans SC", "Hiragino Sans GB", sans-serif;
+  --cjk-font-serif: "Songti SC", "SimSun", "Source Han Serif SC", "Noto Serif SC", serif;
+  /* T11 最小字号红线：正文 ≥14px、任何中文 ≥12px */
+  --cjk-size-body: 16px;
+  --cjk-size-small: 12px;
+  /* T06 行高 ≥1.5、舒适 1.6–1.9 */
+  --cjk-leading: 1.7;
+  /* T05 行长 28–40 字，舒适区取中（⛔ 不照搬上游 42em：按媒介另行定行长） */
+  --cjk-measure: 36em;
+
+  /* ---------- 正文基线 ---------- */
+  font-family: var(--cjk-font-sans);
+  font-size: var(--cjk-size-body);
+  line-height: var(--cjk-leading);
+  max-width: var(--cjk-measure);
+  /* T07：中文不用负字距，保持默认；层级靠字重与留白 */
+  letter-spacing: normal;
+  /* 避头尾（B 节）：行首 」）」，行尾 「（；hanging-punctuation 为渐进增强 */
+  line-break: strict;
+  hanging-punctuation: allow-end;
+  /* B 节：简体统一直角引号（繁体/港台/日式用 q 变量另行预设，⛔ 一份文档不混用弯直） */
+  quotes: "「" "」" "『" "』";
+
+  /* A 节 / T02：默认**不给引擎**，间隙由 .mx 盒或 CJKSpacing 给足 1/4 em（四分空）。
+     理由：text-autospace: normal 宽度固定约 1/8 em、规范不给参数、Safari 只在数字字母前加后面不加，
+     三样都不是「四分空」想要的。要纯 CSS 那档（1/8 em、不插 DOM）给根容器加 .cjk--autospace。 */
+  text-autospace: no-autospace;
+}
+
+/* 可选档：交给排版引擎（Baseline 2025：Chrome·Edge 140+、Firefox 145+、Safari 18.4+）
+   ⚠️ 代价三条：① 宽度约 1/8 em，比四分空窄一半；② Safari 只在字母数字前加、后面不加；③ 不挤压标点 */
+.cjk--autospace { text-autospace: normal; }
+
+.cjk h1, .cjk h2, .cjk h3, .cjk h4 { line-height: 1.35; }
+.cjk small, .cjk figcaption, .cjk .cjk-fine { font-size: var(--cjk-size-small); }
+
+/* ---------- 5.1 中西文间隙：空白盒（不用字符：不依赖 U+2009、不被复制带走） ---------- */
+.cjk .mx { display: inline-block; width: .25em; height: 0; vertical-align: baseline; }
+
+/* ---------- 5.2 标点挤压：CJKSpacing 输出的配套样式 ---------- */
+.cjk .cjk-spacing-start { margin-inline-end: .25em; }
+.cjk .cjk-spacing-end   { margin-inline-start: .25em; }
+.cjk .cjk-adjacent-half   { margin-inline-end: -.5em; }    /* 连续全角标点挤半字 */
+.cjk .cjk-adjacent-quarter{ margin-inline-end: -.25em; }   /* 间隔符/弯引号接开引号挤 1/4 */
+.cjk cjk-spacing, .cjk cjk-adjacent { display: inline; unicode-bidi: isolate; }
+/* ⛔ unicode-bidi: isolate 必须留——解决苹方等字体下标点过度挤压、以及 cjk-adjacent 不被相邻文本影响 */
+
+/* ---------- §G 版式变体（根容器加 variant class 即切换，不影响全局） ---------- */
+/* 古文：宋体正文、楷体标题、首行 2em */
+.cjk--ancient { font-family: var(--cjk-font-serif); }
+.cjk--ancient h1, .cjk--ancient h2, .cjk--ancient h3 {
+  font-family: var(--cjk-font-serif); font-weight: 700; text-align: center;
+  font-kerning: none;
+}
+.cjk--ancient p { text-indent: 2em; }
+
+/* 诗词：无缩进、居中（与古文只差「是否缩进/居中」） */
+.cjk--poetry p { text-indent: 0; text-align: center; }
+
+/* 行间注：行高 2.25、去段距；着重号与 ruby 都不撑行高（最小可用 1.7／2 已测） */
+.cjk--annotation { line-height: 2.25; }
+.cjk--annotation p { margin-block: 0; text-indent: 2em; }
+.cjk--annotation em { font-style: normal; text-emphasis: filled circle; text-emphasis-position: under; }
+.cjk--annotation ruby { line-height: 2; }
+
+/* 多栏：栏距 2em、段间距减半；栏宽用 em 跟字号走（16–48em 可选） */
+.cjk--columns-2 { column-count: 2; column-gap: 2em; }
+.cjk--columns-3 { column-count: 3; column-gap: 2em; }
+.cjk--columns-4 { column-count: 4; column-gap: 2em; }
+.cjk--columns-2 p, .cjk--columns-3 p, .cjk--columns-4 p { margin-block: .5em; }
+
+/* 竖排：纵向字距 0.125em；数字/西文需直立或转全角（⛔ 竖排时直排数字会歪） */
+.cjk--vertical {
+  writing-mode: vertical-rl;
+  max-width: none; max-height: var(--cjk-measure);
+  letter-spacing: .125em;
+  text-orientation: upright;
+}
+
+/* ---------- §F 暗色随系统（只换令牌；使用方可用 data-darkmode 层叠加，⛔ 写死一套颜色） ---------- */
+@media (prefers-color-scheme: dark) {
+  .cjk:where([data-darkmode="auto"], [data-darkmode="dark"], :not([data-darkmode])) {
+    /* 令牌位留给使用方：本文件不预设色板（T11b 对比度 ≥4.5:1 由使用方按实际渲染色值验） */
+    color-scheme: dark;
+  }
+}

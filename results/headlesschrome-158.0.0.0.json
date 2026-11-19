@@ -1,0 +1,45 @@
+{
+  "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+  "supports": {
+    "autospace": true,
+    "autospaceNo": true,
+    "spacingTrim": true
+  },
+  "raw": {
+    "single-none-32": 49.89,
+    "single-normal-32": 53.89,
+    "single-off-32": 49.89,
+    "single-none-64": 99.78,
+    "single-normal-64": 107.78,
+    "spaced-none": 103.2,
+    "spaced-normal": 103.2,
+    "elem-none": 81.89,
+    "elem-normal": 89.89,
+    "elem-spans": 89.89,
+    "mx-none": 52.39,
+    "mx-box": 60.39,
+    "mx-none-64": 104.78,
+    "mx-box-64": 120.78,
+    "trim-pf-off": 128,
+    "trim-pf-on": 112,
+    "trim-st-off": 128,
+    "trim-st-on": 128,
+    "trim-ht-off": 128,
+    "trim-ht-on": 128
+  },
+  "delta": {
+    "gap_32": 4,
+    "gap_64": 8,
+    "gap_em": 0.125,
+    "undeclared_vs_off": 0,
+    "spaced_delta": 0,
+    "element_delta": 8,
+    "empty_spans_delta": 0,
+    "mx_32": 8,
+    "mx_64": 16,
+    "mx_em": 0.25,
+    "trim_pingfang": -16,
+    "trim_songti": 0,
+    "trim_heiti": 0
+  }
+}

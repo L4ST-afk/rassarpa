@@ -1,0 +1,22 @@
+罗蛇 Rassarpa
+Copyright (c) 2026 L4ST-afk
+
+This product includes rules and rule identifiers derived from:
+
+  Measure (分寸) — https://github.com/dososo/blcaptain-measure-cjk
+  Copyright (c) the Measure contributors
+  Licensed under the Apache License, Version 2.0
+  https://www.apache.org/licenses/LICENSE-2.0
+
+  Specifically: the web-side hard-rule identifiers (T01–T19, F03–F06)
+  cited in SKILL.md §九, and the checking discipline (verify after writing,
+  at most five rounds, never silently disable a rule).
+  Measure's measure.css and data/licenses.json are NOT redistributed here;
+  the repository links to them instead.
+
+This product includes rules and regular-expression fragments derived from:
+
+  heti（赫蹏）— https://github.com/sivan/heti        (MIT)
+  pangu.js    — https://github.com/vinta/pangu.js   (MIT)
+
+Their full license texts remain with their respective repositories.

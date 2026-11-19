@@ -1,0 +1,30 @@
+name: selfcheck
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: selfcheck（五项）
+        run: python3 tools/selfcheck.py
+
+      - name: 数字-量词混用检查（逐份文档）
+        run: |
+          for f in $(git ls-files '*.md'); do
+            python3 tools/check_spacing_consistency.py "$f" || exit 1
+          done
+
+      - name: 脚本语法
+        run: |
+          python3 -m py_compile tools/cjk_spacing.py tools/check_spacing_consistency.py tools/glyph_optical_correct.py
+          node --check tools/cjk_spacing.js
+          node --check tools/measure.mjs

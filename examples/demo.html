@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>罗蛇 Rassarpa · 三种做法同屏</title>
+<link rel="stylesheet" href="../tools/cjk-typo.css">
+<style>
+  body { margin: 0 auto; max-width: 46em; padding: 2em 1.2em; }
+  h1 { margin: 0 0 .2em; font-size: 1.6em; letter-spacing: 0 }
+  .meta { margin: 0 0 2em; font-size: .85em; opacity: .7 }
+  .panel { border: 1px solid #8884; border-radius: 6px; padding: 1em 1.2em; margin: 1em 0 }
+  .panel h2 { margin: 0 0 .4em; font-size: .95em; letter-spacing: 0; font-weight: 600 }
+  .tag { font: .8em ui-monospace, monospace; opacity: .6; margin-left: .4em }
+  .note { font-size: .82em; opacity: .72; margin: .6em 0 0 }
+  p.sample { font-size: 1.2em; line-height: 1.75; margin: .3em 0 }
+  button { font: inherit; padding: .3em .7em; border: 1px solid #8886; border-radius: 4px; background: #8881; cursor: pointer }
+  code { font-family: ui-monospace, monospace; font-size: .9em }
+</style>
+</head>
+<body>
+<h1>三种做法同屏</h1>
+<p class="meta">罗蛇 · Rassarpa ／ 打开即见差别：无处理、引擎自动、四分空盒。</p>
+
+<div class="panel">
+  <h2>① 无处理<span class="tag">原文，零间隙</span></h2>
+  <p class="sample">用instruct这个词，共25个词，提高30%。</p>
+  <p class="note">汉字与西文贴成一片，读者要靠字形猜分界。</p>
+</div>
+
+<div class="panel cjk--autospace">
+  <h2>② 引擎自动<span class="tag">text-autospace: normal ≈ 1/8 em</span></h2>
+  <p class="sample">用instruct这个词，共25个词，提高30%。</p>
+  <p class="note">间隙由排版引擎补，不插 DOM；比四分空窄一半，Safari 只在西文前侧加。</p>
+</div>
+
+<div class="panel cjk" id="mx-panel">
+  <h2>③ 四分空盒<span class="tag">.mx = 1/4 em，默认档</span></h2>
+  <p class="sample" id="raw">用instruct这个词，共25个词，提高30%。</p>
+  <p class="note">脚本把间隙与相邻标点挤压落成空元素：可复制、可重排、导出 PDF 同样成立。</p>
+</div>
+
+<p><button id="run">跑一次 CJKSpacing</button></p>
+
+<script src="../tools/cjk_spacing.js"></script>
+<script>
+  // 只在 ③ 面板上跑：② 面板保留引擎原生效果，才好对照
+  document.getElementById('run').addEventListener('click', () => {
+    new CJKSpacing('#mx-panel').run();
+  });
+  // 打开即跑一次，避免读者看到未处理的样子
+  new CJKSpacing('#mx-panel').run();
+</script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>cjk-spacing-lab · probe</title>
+<style>
+  :root { color-scheme: light dark }
+  body { margin: 0; font: 14px/1.5 -apple-system, "PingFang SC", sans-serif }
+  .probe { font-size: 32px; white-space: nowrap; display: inline-block }
+  table { border-collapse: collapse; margin: 1em 0 }
+  td, th { border: 1px solid #8888; padding: .3em .6em; text-align: left; font-variant-numeric: tabular-nums }
+</style>
+</head>
+<body>
+<p class="mono">probe · 所有行都在 32px / 64px 两档字号下量 advance，结果写进表格与页尾结果串。</p>
+
+<!-- 1. 单边界：中文↔拉丁，三种声明 × 两档字号 -->
+<div><span class="probe" id="single-none-32">中a</span></div>
+<div><span class="probe" id="single-normal-32" style="text-autospace:normal">中a</span></div>
+<div><span class="probe" id="single-off-32" style="text-autospace:no-autospace">中a</span></div>
+<div><span class="probe" id="single-none-64" style="font-size:64px">中a</span></div>
+<div><span class="probe" id="single-normal-64" style="font-size:64px;text-autospace:normal">中a</span></div>
+
+<!-- 2. 已含 ASCII 空格的串：差值应为 0（陷阱对照） -->
+<div><span class="probe" id="spaced-none">中 a 中</span></div>
+<div><span class="probe" id="spaced-normal" style="text-autospace:normal">中 a 中</span></div>
+
+<!-- 3. 跨元素边界的缝 -->
+<div><span class="probe" id="elem-none">中<abbr>a</abbr>中</span></div>
+<div><span class="probe" id="elem-normal" style="text-autospace:normal">中<abbr>a</abbr>中</span></div>
+<div><span class="probe" id="elem-spans" style="text-autospace:normal">中<span></span>a<span></span>中</span></div>
+
+<!-- 4. .mx 空白盒：四分空 -->
+<div><span class="probe" id="mx-none">中X</span></div>
+<div><span class="probe" id="mx-box">中<span class="mx"></span>X</span></div>
+<div><span class="probe" id="mx-none-64" style="font-size:64px">中X</span></div>
+<div><span class="probe" id="mx-box-64" style="font-size:64px">中<span class="mx"></span>X</span></div>
+
+<!-- 5. 标点挤压：同一属性，三款字体 -->
+<div><span class="probe" id="trim-pf-off" style="font-family:'PingFang SC';text-spacing-trim:space-all">中（（标</span></div>
+<div><span class="probe" id="trim-pf-on"  style="font-family:'PingFang SC';text-spacing-trim:normal">中（（标</span></div>
+<div><span class="probe" id="trim-st-off" style="font-family:'Songti SC';text-spacing-trim:space-all">中（（标</span></div>
+<div><span class="probe" id="trim-st-on"  style="font-family:'Songti SC';text-spacing-trim:normal">中（（标</span></div>
+<div><span class="probe" id="trim-ht-off" style="font-family:'Heiti SC';text-spacing-trim:space-all">中（（标</span></div>
+<div><span class="probe" id="trim-ht-on"  style="font-family:'Heiti SC';text-spacing-trim:normal">中（（标</span></div>
+
+<table id="tbl"></table>
+<pre id="out"></pre>
+
+<style>
+  .mx { display: inline-block; width: .25em; height: 0; vertical-align: baseline }
+  .mono { font-family: ui-monospace, monospace }
+</style>
+<script>
+  const px = id => document.getElementById(id).getBoundingClientRect().width;
+  const rows = [
+    ['单边界 · 无声明',        'single-none-32',   'single-none-64'],
+    ['单边界 · normal',        'single-normal-32', 'single-normal-64'],
+    ['单边界 · no-autospace',  'single-off-32',    null],
+    ['含 ASCII 空格 · 无声明',  'spaced-none',      null],
+    ['含 ASCII 空格 · normal',  'spaced-normal',    null],
+    ['跨元素边界 · 无声明',     'elem-none',        null],
+    ['跨元素边界 · normal',     'elem-normal',      null],
+    ['每缝空 span · normal',   'elem-spans',       null],
+    ['.mx 盒 vs 无盒',          'mx-box',           'mx-box-64'],
+    ['挤压 off（苹方）',        'trim-pf-off',      null],
+    ['挤压 on（苹方）',         'trim-pf-on',       null],
+    ['挤压 off（宋体）',        'trim-st-off',      null],
+    ['挤压 on（宋体）',         'trim-st-on',       null],
+    ['挤压 off（黑体）',        'trim-ht-off',      null],
+    ['挤压 on（黑体）',         'trim-ht-on',       null],
+  ];
+
+  const r = { ua: navigator.userAgent, supports: {
+    autospace: CSS.supports('text-autospace', 'normal'),
+    autospaceNo: CSS.supports('text-autospace', 'no-autospace'),
+    spacingTrim: CSS.supports('text-spacing-trim', 'normal'),
+  }};
+
+  r.raw = {};
+  for (const id of ['single-none-32','single-normal-32','single-off-32','single-none-64','single-normal-64',
+                    'spaced-none','spaced-normal','elem-none','elem-normal','elem-spans',
+                    'mx-none','mx-box','mx-none-64','mx-box-64',
+                    'trim-pf-off','trim-pf-on','trim-st-off','trim-st-on','trim-ht-off','trim-ht-on']) {
+    r.raw[id] = +px(id).toFixed(2);
+  }
+
+  r.delta = {
+    // 单边界真实间隙：normal − 无声明（两档字号各算一次，用来验证比例是否恒定）
+    gap_32: +(r.raw['single-normal-32'] - r.raw['single-none-32']).toFixed(2),
+    gap_64: +(r.raw['single-normal-64'] - r.raw['single-none-64']).toFixed(2),
+    gap_em: +(((r.raw['single-normal-32'] - r.raw['single-none-32']) / 32)).toFixed(4),
+    // 无声明 ≡ 关闭
+    undeclared_vs_off: +(r.raw['single-none-32'] - r.raw['single-off-32']).toFixed(2),
+    // 陷阱：串里已有空格，差值为 0
+    spaced_delta: +(r.raw['spaced-normal'] - r.raw['spaced-none']).toFixed(2),
+    // 跨元素边界
+    element_delta: +(r.raw['elem-normal'] - r.raw['elem-none']).toFixed(2),
+    empty_spans_delta: +(r.raw['elem-spans'] - r.raw['elem-normal']).toFixed(2),
+    // .mx 盒宽度
+    mx_32: +(r.raw['mx-box'] - r.raw['mx-none']).toFixed(2),
+    mx_64: +(r.raw['mx-box-64'] - r.raw['mx-none-64']).toFixed(2),
+    mx_em: +(((r.raw['mx-box'] - r.raw['mx-none']) / 32)).toFixed(4),
+    // 挤压
+    trim_pingfang: +(r.raw['trim-pf-on'] - r.raw['trim-pf-off']).toFixed(2),
+    trim_songti: +(r.raw['trim-st-on'] - r.raw['trim-st-off']).toFixed(2),
+    trim_heiti: +(r.raw['trim-ht-on'] - r.raw['trim-ht-off']).toFixed(2),
+  };
+
+  const tbl = document.getElementById('tbl');
+  tbl.innerHTML = '<tr><th>项</th><th>32px</th><th>64px</th></tr>' +
+    rows.map(([label, a, b]) =>
+      `<tr><td>${label}</td><td>${r.raw[a]}</td><td>${b ? r.raw[b] : '—'}</td></tr>`).join('');
+
+  document.getElementById('out').textContent = 'RESULT' + JSON.stringify(r) + 'END';
+</script>
+</body>
+</html>
