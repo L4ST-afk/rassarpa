@@ -1,0 +1,56 @@
+{
+  "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:159.0) Gecko/20100101 Firefox/159.0",
+  "supports": {
+    "autospace": true,
+    "autospaceNo": true,
+    "spacingTrim": false
+  },
+  "raw": {
+    "single-none-32": 48.47,
+    "single-normal-32": 52.47,
+    "single-off-32": 48.47,
+    "single-none-64": 96.35,
+    "single-normal-64": 104.35,
+    "spaced-none": 93.6,
+    "spaced-normal": 93.6,
+    "elem-none": 80.47,
+    "elem-normal": 88.47,
+    "elem-spans": 88.47,
+    "mx-none": 52.72,
+    "mx-box": 60.72,
+    "mx-none-64": 104.85,
+    "mx-box-64": 120.85,
+    "trim-pf-off": 128,
+    "trim-pf-on": 128,
+    "trim-st-off": 128,
+    "trim-st-on": 128,
+    "trim-ht-off": 128,
+    "trim-ht-on": 128
+  },
+  "delta": {
+    "gap_32": 4,
+    "gap_64": 8,
+    "gap_em": 0.125,
+    "undeclared_vs_off": 0,
+    "spaced_delta": 0,
+    "element_delta": 8,
+    "empty_spans_delta": 0,
+    "mx_32": 8,
+    "mx_64": 16,
+    "mx_em": 0.25,
+    "trim_pingfang": 0,
+    "trim_songti": 0,
+    "trim_heiti": 0
+  },
+  "env": {
+    "engine": "firefox",
+    "engineVersion": "159.0",
+    "platform": "darwin",
+    "fonts": {
+      "pingfang": true,
+      "songti": true,
+      "heiti": true,
+      "anyCJK": true
+    }
+  }
+}

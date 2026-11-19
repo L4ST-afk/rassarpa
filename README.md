@@ -26,15 +26,16 @@ W3C 那篇讲行内空白的文章至今写「目前没有浏览器会在不加�
 
 ## 四个读数
 
-实测，HeadlessChrome 158 · macOS · PingFang SC · 32px 与 64px 两档：
+实测，HeadlessChrome 158 · macOS · PingFang SC · 32px 与 64px 两档。同一份 probe 也跑了 Firefox 与 WebKit 引擎，读数在 `results/firefox-pw.*`、`results/webkit-pw.*`，差在哪见下文「已知限制」：
 
 | 项 | 量到的值 |
 |---|---|
-| `text-autospace: normal`，单边界间隙 | +4px / +8px = **0.125 em**，比例恒定 |
-| 不写声明 vs 显式 `no-autospace` | 差 0 —— **不声明等于关闭** |
+| `text-autospace: normal`，单边界间隙 | +4px / +8px = **0.125 em**，比例恒定（三家引擎都是这个数） |
+| 不写声明 vs 显式 `no-autospace` | 差 0 —— **不声明等于关闭**（三家引擎都差 0） |
 | 串里已有 ASCII 空格时加 `normal` | 差 0 —— **测法本身会骗人** |
 | `.mx` 空白盒 | +8px = **0.25 em**（四分空） |
-| 挤压 · PingFang SC | −16px |
+| 跨元素边界的两个缝 | Chrome／Firefox 各补 +4，共 +8；WebKit 只补一侧，共 +4 |
+| 挤压 · PingFang SC | −16px（只有 Chrome 支持 `text-spacing-trim`） |
 | 挤压 · Songti SC / Heiti SC | 0（`CSS.supports()` 却返回 true） |
 
 要精确的四分空就加 `.mx` 空盒；省事交给 `text-autospace`，得接受它只给八分，正好一半。⛔ 别用普通空格凑。
@@ -86,7 +87,7 @@ python3 tools/glyph_optical_correct.py --font <字体> --size 75 --mode fixed --
 ## 已知限制
 
 - **跨元素边界的缝，脚本补不上**：间隙按文本节点落，`<span>学习</span><span>CSS</span>` 这种把缝拆到两个元素上的写法拿不到盒子。WebKit 的原生 `text-autospace` 同样在元素边界不加。
-- **Safari 与 Firefox 未实测**：单侧加间隙、元素边界丢缝这些说法来自 WebKit 记录，标「未复现」，引用时连这句一起引。
+- **Safari 本体未跑**：Firefox 159 与 WebKit 27.2 已在同一 probe 下量过（`results/*-pw.*`，由 `tools/measure_pw.mjs` 起的 Playwright 构建）。WebKit 构建证实了「元素边界只补一侧、每缝包空 span 会把间隙打掉」，但构建不是 Apple 发的 Safari，那句话不能直接改口。要那份读数，跑 `tools/measure_safari.mjs`，开两个开关（`sudo safaridriver --enable`、Safari 开发菜单里允许远程自动化）。
 - **字体只覆盖三款测试字体**：挤压是否生效随字体而变，换字体要重量。
 
 ## 上游与许可
@@ -111,11 +112,15 @@ tools/
   selfcheck.py            五项自检
   check_spacing_consistency.py   数字-量词混用
   glyph_optical_correct.py       逐字墨迹居中
-  probe.html / measure.mjs       量具与跑法
+  probe.html / measure.mjs       量具与跑法（Chrome 本体）
+  measure_pw.mjs                  同量具跑 Firefox 与 WebKit（Playwright 构建）
+  measure_safari.mjs              同量具跑 Safari 本体（safaridriver，要开两个开关）
+  check_readings.py               README 的数字 vs results
+  check_engines.py                跨引擎三条不变式
 tests/test_spacing.py     八条白盒回归
 examples/demo.html        三种做法同屏，打开即见差别
 docs/                     测量方法、上游与许可、判据表、封面文案
-results/                  实测读数（JSON + Markdown）
+results/                  实测读数（JSON + Markdown）：Chrome 本体、两家引擎构建
 ```
 
 ## 不做什么

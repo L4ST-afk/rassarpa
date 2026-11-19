@@ -9,6 +9,7 @@
     "test:js": "node tests/test_spacing_js.mjs"
   },
   "devDependencies": {
-    "jsdom": "^26.1.0"
+    "jsdom": "^26.1.0",
+    "playwright": "^1.65.1"
   }
 }

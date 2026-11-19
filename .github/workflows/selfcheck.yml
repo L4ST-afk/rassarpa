@@ -25,6 +25,9 @@ jobs:
       - name: 读数对账（README 的数字 vs results）
         run: python3 tools/check_readings.py
 
+      - name: 跨引擎读数对账（results/*-pw.json）
+        run: python3 tools/check_engines.py
+
       - name: 行为回归（白盒）
         run: python3 tests/test_spacing.py
 
@@ -44,3 +47,42 @@ jobs:
           python3 -m py_compile tools/*.py tests/*.py
           node --check tools/cjk_spacing.js
           node --check tools/measure.mjs
+          node --check tools/measure_pw.mjs
+          node --check tools/measure_safari.mjs
+
+  # 跨引擎：在 CI 里真起 Firefox 与 WebKit 各量一遍，读数当 artifact 留档。
+  # CI 是 Linux，没有苹方／宋体／黑体，C7 那三条在这里不判；WebKit 构建也不等于 Safari 本体。
+  engines:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: 装依赖
+        run: npm ci --silent --no-audit --no-fund
+
+      - name: 装浏览器（Firefox 与 WebKit）
+        run: npx playwright install --with-deps firefox webkit
+
+      - name: 量
+        run: node tools/measure_pw.mjs --out results/ci
+
+      - name: 对账并打印
+        run: |
+          python3 tools/check_engines.py results/ci
+          for f in results/ci/*.md; do
+            sed -n '1,14p' "$f"
+            echo
+          done
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: engine-readings-linux
+          path: results/ci
