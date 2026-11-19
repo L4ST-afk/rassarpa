@@ -25,6 +25,11 @@ jobs:
       - name: 行为回归（白盒）
         run: python3 tests/test_spacing.py
 
+      - name: 浏览器脚本回归（jsdom）
+        run: |
+          npm install --silent --no-audit --no-fund
+          node tests/test_spacing_js.mjs
+
       - name: 数字-量词混用检查（逐份文档）
         run: |
           git config core.quotePath false

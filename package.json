@@ -1,0 +1,14 @@
+{
+  "name": "rassarpa",
+  "version": "0.1.0",
+  "private": true,
+  "description": "CJK–Latin mixed spacing: rules, measurement, and two thin scripts",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "test:js": "node tests/test_spacing_js.mjs"
+  },
+  "devDependencies": {
+    "jsdom": "^26.1.0"
+  }
+}

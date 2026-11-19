@@ -143,6 +143,14 @@
           // 中西文间隙用 cjk-spacing；标点挤压用 cjk-adjacent
           var isSpacing = (rule.cls === 'both' || rule.cls === 'start' || rule.cls === 'end')
           var el
+          if (isSpacing && /^\s|\s$/.test(matched)) {
+            // 边界上已经有人打了 ASCII 空格：⛔ 不插盒，更⛔ 不删字符。
+            // trim 会把两侧空格吃掉，`中 a 中` 就变成 `中a中`——复制、检索、翻译全丢。
+            frag.appendChild(document.createTextNode(matched))
+            last = m.index + matched.length + (self.offset || 0)
+            rule.re.lastIndex = last
+            continue
+          }
           if (isSpacing) {
             el = document.createElement('cjk-spacing')
             if (rule.cls === 'start') el.className = 'cjk-spacing-start'
