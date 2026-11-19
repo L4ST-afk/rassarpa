@@ -42,7 +42,7 @@ So the default here is the sized box, not the CSS property: **quarter-em is the 
 
 Two ways in, pick one:
 
-- **As an agent skill**: grab `rassarpa-0.1.0-开箱包.zip` from [Releases](https://github.com/L4ST-afk/rassarpa/releases/latest), unzip, then move the whole folder into your agent's `skills directory` (the folder name stays `rassarpa`). `SKILL.md` is the rule book; scripts and `references/` are read on demand.
+- **As an agent skill**: grab `rassarpa-0.1.0-skill.zip` from [Releases](https://github.com/L4ST-afk/rassarpa/releases/latest), unzip, then move the whole folder into your agent's `skills directory` (the folder name stays `rassarpa`). `SKILL.md` is the rule book; scripts and `references/` are read on demand.
 - **As plain web code**: copy `tools/cjk-typo.css` and `tools/cjk_spacing.js` into your page and follow the snippet above. Nothing else is required.
 
 Then verify — this script is the repository's selftest:
