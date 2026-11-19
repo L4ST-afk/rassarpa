@@ -16,7 +16,7 @@ Rassarpa 是拉丁名，罗蛇是中文名。目录、包名、分支一律用 `
 
 ## 先说这块是空的
 
-Chrome 团队那套《Modern Web Guidance》有 209 篇指南，正文里 `autospace` 与 `CJK` 各命中 **0 次**（本机离线包 1.0.0＋`5e5cd33`，2026-11-20 检索）。最接近的一篇 `visual-design/typography.md` 只给西文口径：`line-height: 1.5`、`max-width: 60ch`——对中文，前者是下限，后者偏宽。
+Chrome 团队那套《Modern Web Guidance》有 209 篇指南，正文里 `autospace` 与 `CJK` 各命中 **0 次**（离线包 1.0.0＋`5e5cd33`，2026-11-20 检索）。最接近的一篇 `visual-design/typography.md` 只给西文口径：`line-height: 1.5`、`max-width: 60ch`——对中文，前者是下限，后者偏宽。
 
 W3C 那篇讲行内空白的文章至今写「目前没有浏览器会在不加样式时插入间隙」，三家引擎却都已支持 `text-autospace`，且**初始值都是关闭**。教程照着前半句写，读者照着后半句量，量出来对不上。
 
@@ -24,7 +24,7 @@ W3C 那篇讲行内空白的文章至今写「目前没有浏览器会在不加�
 
 ## 四个读数
 
-本机实测，HeadlessChrome 158 · macOS · PingFang SC · 32px 与 64px 两档：
+实测，HeadlessChrome 158 · macOS · PingFang SC · 32px 与 64px 两档：
 
 | 项 | 量到的值 |
 |---|---|
@@ -57,9 +57,9 @@ W3C 那篇讲行内空白的文章至今写「目前没有浏览器会在不加�
 
 ## 当作 agent skill 用
 
-整个目录放进宿主 skills 根，`SKILL.md` 即判据正本（356 行，含反例、何时用／不用、体量预算、上游声明）。细则卷按问题取，⛔ 不通读七卷。
+整个目录放进你的 agent 的 skills 目录，`SKILL.md` 即判据正本（356 行，含反例、何时用／不用、体量预算、上游声明）。细则卷按问题取，⛔ 不通读七卷。
 
-不想克隆：去 [Releases](https://github.com/L4ST-afk/rassarpa/releases/latest) 下 `rassarpa-0.1.0-skill.zip`，解压即得一整个技能目录（六项交付面全绿、疫苗词零残留）。
+不想克隆：去 [Releases](https://github.com/L4ST-afk/rassarpa/releases/latest) 下 `rassarpa-0.1.0-skill.zip`，解压即得一整个技能目录（六项交付面全绿）。
 
 判据只有一份正本：`SKILL.md`。与细则卷冲突时，改细则卷。
 
@@ -67,7 +67,7 @@ W3C 那篇讲行内空白的文章至今写「目前没有浏览器会在不加�
 
 ```bash
 python3 tools/selfcheck.py
-# 期望五项全 OK：API 名一致｜引用都在盘上｜§九编号有落点｜开箱样式红线｜混用检查器有牙
+# 期望五项全 OK：API 名一致｜引用文件都在｜§九编号有落点｜开箱样式红线｜混用检查器有牙
 python3 tests/test_spacing.py
 # 期望末行 ALL OK：边界落间隙｜代码块不动｜标点挤压｜已有空格不被吃掉
 ```
@@ -83,13 +83,13 @@ python3 tools/glyph_optical_correct.py --font <字体> --size 75 --mode fixed --
 
 - **跨元素边界的缝，脚本补不上**：间隙按文本节点落，`<span>学习</span><span>CSS</span>` 这种把缝拆到两个元素上的写法拿不到盒子。WebKit 的原生 `text-autospace` 同样在元素边界不加。
 - **Safari 与 Firefox 未实测**：单侧加间隙、元素边界丢缝这些说法来自 WebKit 记录，标「未复现」，引用时连这句一起引。
-- **字体只覆盖本机三款**：挤压是否生效随字体而变，换字体要重量。
+- **字体只覆盖三款测试字体**：挤压是否生效随字体而变，换字体要重量。
 
 ## 上游与许可
 
 | 上游 | 许可 | 用了什么 |
 |---|---|---|
-| [赫蹏 heti](https://github.com/sivan/heti) | MIT | 挤压规则与正则思路，已内化进 `tools/cjk_spacing.js` |
+| [赫蹏 heti](https://github.com/sivan/heti) | MIT | 挤压规则与正则思路，已并入 `tools/cjk_spacing.js` |
 | [pangu.js](https://github.com/vinta/pangu.js) | MIT | 部分边界正则，文件头注明 |
 | [分寸 · Measure](https://github.com/dososo/blcaptain-measure-cjk) | 代码 Apache-2.0；字体数据 CC BY 4.0 | 网页硬规则编号体系与校验纪律；`measure.css`、`data/licenses.json` **不内置，自取** |
 

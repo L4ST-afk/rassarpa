@@ -18,7 +18,7 @@ description: "中西文混排排版规范与执行：四分空、标点挤压、
 2. **拿带空格的串测 `text-autospace`**：串 `共 3 空 用 iPhone 拍`，加不加 `text-autospace: normal` 都是 125.797px，差值为零，据此判「这属性没用」。真相是已有 ASCII 空格的地方规范不再补。重来：用**无空格串**测（`中文abc中文`），32px 字号下差 +4px＝1/8 em。
 3. **间隙用普通空格凑**：复制到别处会带走、会参与断行、宽度随字体浮动。重来：用空白盒 `.mx` 或 `text-autospace`，⛔ 不用 U+0020。
 4. **段首缩进写 mm**（`text-indent: 7mm`）：换算依赖字号，换个字号就不再是两格。重来：`2em`。
-5. **文档点名上游文件而盘上没有**：T02/T03 曾写「引入 measure 的 `measure.css` 即可」，而 `measure.css`、`data/licenses.json`、`licenses.js` 都不在本目录——读者照着文档去拿会扑空。重来：正文只写「需自取」，取法与许可写进 README「上游依赖」，并注明核验日期。
+5. **文档点名上游文件而本目录没有**：T02/T03 曾写「引入 measure 的 `measure.css` 即可」，而 `measure.css`、`data/licenses.json`、`licenses.js` 都不在本目录——读者照着文档去拿会扑空。重来：正文只写「需自取」，取法与许可写进 README「上游依赖」，并注明核验日期。
 
 ## 何时用／不用
 
@@ -69,7 +69,7 @@ description: "中西文混排排版规范与执行：四分空、标点挤压、
 ### B. 标点
 
 - **避头尾**：`，。、；：！？）」』】》` 不得出现在行首；`（「『【《` 不得出现在行尾。
-- **相邻标点挤压（脚本实现）**：`text-spacing-trim` 的效果**依字体而定**——本机 34 款中文字体里只有 8 款支持（PingFang SC/TC/HK、Source Han Sans/Serif SC、Hiragino 系），宋体、SimHei、楷体、`Noto Sans SC` 都不支持。字体不可控时，用脚本把「相邻标点的前一枚」加负边距——精确、且用元素包裹（不是塞字符），可被复制/重排安全带走。规则：
+- **相邻标点挤压（脚本实现）**：`text-spacing-trim` 的效果**依字体而定**——实测 34 款中文字体里只有 8 款支持（PingFang SC/TC/HK、Source Han Sans/Serif SC、Hiragino 系），宋体、SimHei、楷体、`Noto Sans SC` 都不支持。字体不可控时，用脚本把「相邻标点的前一枚」加负边距——精确、且用元素包裹（不是塞字符），可被复制/重排安全带走。规则：
   - 连续**全角标点**挤**半个字宽**：`。」`、`，』`、`（《` → 前一枚 `margin-inline-end: -0.5em`（`.cjk-adjacent-half`）。
   - **间隔符**（`·・‧`）接引号、弯引号接全角开引号 → 挤**四分之一**（`-0.25em`，`.cjk-adjacent-quarter`）。
   - 脚本见 `tools/cjk_spacing.js`（浏览器零依赖：`new CJKSpacing('.cjk').run()`）与 `tools/cjk_spacing.py`（服务端出 HTML）。
@@ -121,7 +121,7 @@ description: "中西文混排排版规范与执行：四分空、标点挤压、
 
 - **暗色跟着系统走**：用 `@media (prefers-color-scheme: dark)` 自动切换；需要手动控制时再用 `data-darkmode="auto|dark"` 选择器层叠加。⛔ 不要写死一套颜色。
 - **与 normalize.css / Reset 共存**：参考项目用 `!important` 只压**容器首末子元素的外边距**和**非中文块的 letter-spacing/对齐**，不碰全局 reset 的基础项，故能叠加在 reset 之上。本 skill 的 `.mx` 间隙盒同理——只作用于被包裹的文本节点，不重置全局。
-- **字体族**：中文正文走衬线/黑体栈（本机可用霞鹜文楷 LXGW、思源宋/黑等落地面），⛔ 不靠单一系统字体兜底。
+- **字体族**：中文正文走衬线/黑体栈（可选霞鹜文楷 LXGW、思源宋/黑等落地面），⛔ 不靠单一系统字体兜底。
 
 ### G. 版式变体（古文／诗词／行间注／多栏／竖排）
 
@@ -178,7 +178,7 @@ def mix(s):
 
 ### 5.2 标点挤压（B 节脚本方案）
 
-> 标点挤压不要指望 `text-spacing-trim`：它的效果依字体而定（本机 34 款中文字体只 8 款支持，宋体／`Noto Sans SC` 都不支持）。用脚本把"相邻标点的前一枚"包进负边距元素，换字体也不失效。规则与 B 节一致：全角相邻挤半字、间隔符/弯引号接开引号挤 quarter、中西文间隙 quarter。
+> 标点挤压不要指望 `text-spacing-trim`：它的效果依字体而定（实测 34 款中文字体只 8 款支持，宋体／`Noto Sans SC` 都不支持）。用脚本把"相邻标点的前一枚"包进负边距元素，换字体也不失效。规则与 B 节一致：全角相邻挤半字、间隔符/弯引号接开引号挤 quarter、中西文间隙 quarter。
 
 - **浏览器端零依赖**：`tools/cjk_spacing.js` —— `new CJKSpacing('.cjk').run()`，基于上游正则（含 lookbehind 降级）逐文本节点包裹 `cjk-spacing` / `cjk-adjacent` 元素，跳过 `pre/code/sup/sub` 等。
 - **服务端出 HTML**：`tools/cjk_spacing.py` —— 同规则的正则替换，供生成脚本在落盘前处理纯文本/片段。
@@ -234,7 +234,7 @@ def mix(s):
 
 ## 七、依据
 
-- **Sivan《赫蹏》（heti，github.com/sivan/heti，6.7k★，MIT）**：本 skill 的标点挤压脚本、简体直角引号预设、暗色随系统、多布局 modifier（`--ancient/--poetry/--annotation/--columns-/--vertical`）与「兼容 normalize.css/Reset」部署法的**直接来源**。⛔ 有扬弃地吸收：仅取其排版规则与脚本逻辑，**不引入其字体族**（本机用 LXGW 等落地面）、**不照搬其 `max-width: 42em` 默认值**（按媒介另行定行长）、**不默认开启中西文自动空格的 word-spacing 思路**（保留本 skill 的空白盒方案，因果关系更清晰、可被 PDF 出件复用）。
+- **Sivan《赫蹏》（heti，github.com/sivan/heti，6.7k★，MIT）**：本 skill 的标点挤压脚本、简体直角引号预设、暗色随系统、多布局 modifier（`--ancient/--poetry/--annotation/--columns-/--vertical`）与「兼容 normalize.css/Reset」部署法的**直接来源**。⛔ 有扬弃地吸收：仅取其排版规则与脚本逻辑，**不引入其字体族**（用 LXGW 等落地面）、**不照搬其 `max-width: 42em` 默认值**（按媒介另行定行长）、**不默认开启中西文自动空格的 word-spacing 思路**（保留本 skill 的空白盒方案，因果关系更清晰、可被 PDF 出件复用）。
 - **pangu.js**（vinta/pangu.js，MIT）：`tools/cjk_spacing.js` 的**部分正则**修改自它（文件头注明）；取其「汉字与西文/数字之间加盘古之白」的边界判定思路，⛔ 全量照搬——本 skill 保留紧邻全角标点内侧不加间隙等自有规则。
 - The Type（typeisbeautiful.com / thetype.com）《中文排版网格系统的五大迷思》（2020-01-28，Eric Q. Liu）：字格/占字占行/半宽标点奇偶处理/「纵横对齐不是现代方法」。
 - The Type《「中西之别」重考》（2017-08）：稿纸模式、先算版心再余白、rem 与字格。
@@ -272,7 +272,7 @@ python3 tools/glyph_optical_correct.py --font FONT --size 75 --json   # 供生�
 - **T07 中文字距不为负**（`letter-spacing ≥ 0`）：西文大标题爱用负字距收紧，搬到中文上**笔画会碰在一起**。中文标题保持默认字距，靠**字重与留白**拉层级。`⛔ letter-spacing: -0.02em` 对中文是硬伤。
 - **T08 中文不用斜体（防假斜体）**：中文字体**没有真正的 italic 字形**，`font-style: italic` 只会让浏览器把字**硬歪**成合成斜体（faux oblique），又丑又累。中文强调改用 **加粗 / 变色 / 着重号**；西文强调仍可用真 italic（拉丁字形有斜体）。
 - **T11 最小字号**：**正文 ≥ 14px**，**任何中文（价格说明、标签、脚注、注释）≥ 12px**。汉字笔画多，10–11px 会糊成一团；⛔ 价格旁小字写 9px 之类。
-- **T11b 正文与背景对比度**（本机增补，非上游 T 编号）：字号达标只是一半，字与背景的对比同样要够 —— 正文 **≥4.5:1**；≥18.66px 加粗或 ≥24px 可放宽到 **3:1**；副标题、按钮文案、表单提示这些**承载信息**的都按正文算，纯装饰分隔线不算。⛔ 最常见踩法是「小字＋灰字」一次踩两条：价格旁说明写 9px 浅灰，字号与对比度同时不达标。**按实际渲染色值算，不按令牌名义值算** —— 半透明叠底、渐变上排字、暗色模式下的同一色值，名义值与实测常差一档。
+- **T11b 正文与背景对比度**（本仓增补，非上游 T 编号）：字号达标只是一半，字与背景的对比同样要够 —— 正文 **≥4.5:1**；≥18.66px 加粗或 ≥24px 可放宽到 **3:1**；副标题、按钮文案、表单提示这些**承载信息**的都按正文算，纯装饰分隔线不算。⛔ 最常见踩法是「小字＋灰字」一次踩两条：价格旁说明写 9px 浅灰，字号与对比度同时不达标。**按实际渲染色值算，不按令牌名义值算** —— 半透明叠底、渐变上排字、暗色模式下的同一色值，名义值与实测常差一档。
 - **T13 中文字体栈必须显式声明**：⛔ 不要只写西文字体（如 `"Helvetica Neue", Arial`）或不写字体栈——中文会掉进系统默认，且**无法控制授权**。推荐栈（系统优先、零授权风险）：
   ```css
   font-family: "PingFang SC", "Microsoft YaHei", "Source Han Sans SC",
@@ -316,9 +316,9 @@ measure-cjk fonts "思源黑体"
 
 ## 上游依赖（声明，不内置）
 
-| 上游 | 许可 | 本 skill 用了它什么 | 盘上有没有 |
+| 上游 | 许可 | 本 skill 用了它什么 | 目录里有没有 |
 |---|---|---|---|
-| 赫蹏 heti（`sivan/heti`） | MIT | 挤压脚本思路与正则 → 已内化成 `tools/cjk_spacing.js` | 有（代码在，不需回拉） |
+| 赫蹏 heti（`sivan/heti`） | MIT | 挤压脚本思路与正则 → 已并入 `tools/cjk_spacing.js` | 有（代码在，不需回拉） |
 | pangu.js（`vinta/pangu.js`） | MIT | 部分边界正则，文件头注明 | 有（同上） |
 | 分寸 · Measure（`dososo/blcaptain-measure-cjk`） | 代码 Apache-2.0；字体数据 CC BY 4.0 | §九 的 T/F 规则编号体系与校验纪律；`measure.css`（T02/T03 的间隙层）、`data/licenses.json`（字体授权四档的核验源） | **没有**，自取 |
 
