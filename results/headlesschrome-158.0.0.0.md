@@ -1,4 +1,4 @@
-<!-- 由 run.mjs 生成于 2026-11-19T19:16:52.592Z · Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36 -->
+<!-- 由 run.mjs 生成于 2026-11-19T19:32:12.485Z · Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36 -->
 | 项 | 量到的值 |
 |---|---|
 | 单边界间隙（32px） | +4px = 0.125 em |
