@@ -72,6 +72,8 @@ python3 tools/selfcheck.py
 # 期望五项全 OK：API 名一致｜引用文件都在｜§九编号有落点｜开箱样式红线｜混用检查器有牙
 python3 tests/test_spacing.py
 # 期望末行 ALL OK：边界落间隙｜代码块不动｜标点挤压｜已有空格不被吃掉
+python3 tools/check_readings.py
+# 期望一致：上面四个读数的数字，与 results/ 里的 JSON 逐项对得上
 ```
 
 单点检查器另有两个：
