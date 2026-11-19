@@ -2,6 +2,16 @@
 
 [中文](CHANGELOG.md) · English
 
+## 0.1.1 (2026-11-20)
+
+Fixes found the same day the first release went out, all in the "mangles the user's text" and "breaks on someone else's machine" categories.
+
+- **Fixed**: `cjk_spacing.js` removed an existing ASCII space at the boundary (`中 a 中` → `中a中`), contradicting `cjk_spacing.py` and the rule book. Now an existing space is left alone: no box, no deleted characters.
+- **Fixed**: the no-lookbehind fallback path wrapped the preceding ideograph inside the spacing box and advanced one character too far, swallowing the next character; punctuation squeezing had the same defect. It now slices the prefix and advances by the real match length.
+- **Fixed**: `glyph_optical_correct.py` threw a full traceback when `fontTools` was missing; it now prints one line. That is the only tool here with an external dependency.
+- **Tests**: added `tests/test_spacing_js.mjs` (jsdom, 14 checks), run in CI.
+- **CI**: per-document checks switch to `git ls-files -z`, so filenames with spaces no longer break the loop.
+
 ## 0.1.0 (2026-11-20)
 
 First public release. Directory, package and branch names are all `rassarpa`.
