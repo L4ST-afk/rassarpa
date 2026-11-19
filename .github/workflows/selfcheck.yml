@@ -32,8 +32,7 @@ jobs:
 
       - name: 数字-量词混用检查（逐份文档）
         run: |
-          git config core.quotePath false
-          for f in $(git ls-files '*.md'); do
+          git ls-files -z '*.md' | while IFS= read -r -d '' f; do
             python3 tools/check_spacing_consistency.py "$f" || exit 1
           done
 

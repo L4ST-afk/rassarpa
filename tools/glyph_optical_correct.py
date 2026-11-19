@@ -27,8 +27,13 @@ import argparse
 import json
 import sys
 
-from fontTools.ttLib import TTFont
-from fontTools.pens.areaPen import AreaPen
+try:
+    from fontTools.ttLib import TTFont
+    from fontTools.pens.areaPen import AreaPen
+except ImportError:  # 可选依赖：只有这个工具需要，缺了要说人话，⛔ 不要抛一屏 traceback
+    sys.exit("缺 fontTools：python3 -m pip install fonttools（本仓只有逐字光学修正用它，"
+             "其余工具零依赖）")
+
 
 
 def load_metrics(font_path, face=0, digits="0123456789"):
