@@ -50,7 +50,7 @@
       "pingfang": true,
       "songti": true,
       "heiti": true,
-      "anyCJK": true
+      "anyCJK": false
     }
   }
 }

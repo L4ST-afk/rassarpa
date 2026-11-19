@@ -107,16 +107,25 @@ try {
   }
 
   const r = JSON.parse(m[1]);
+  // 字体探针用 FontFace.local()：document.fonts.check() 对没装的字体也返回 true，不能用。
+  const fonts = await req('POST', `/session/${sid}/execute/async`, {
+    script: `
+      const done = arguments[arguments.length - 1];
+      const has = async (f) => { try { await new FontFace('probe', 'local("' + f + '")').load(); return true; } catch (e) { return false; } };
+      (async () => { done({
+        pingfang: await has('PingFang SC'),
+        songti: await has('Songti SC'),
+        heiti: await has('Heiti SC'),
+        anyCJK: await has('Noto Sans CJK SC'),
+      }); })();
+    `,
+    args: [],
+  });
   r.env = {
     engine: 'safari',
     engineVersion: (await run('return navigator.userAgent'))?.match(/Version\/([\d.]+)/)?.[1] ?? 'unknown',
     platform: 'darwin',
-    fonts: await run(`return {
-      pingfang: document.fonts.check('32px "PingFang SC"'),
-      songti: document.fonts.check('32px "Songti SC"'),
-      heiti: document.fonts.check('32px "Heiti SC"'),
-      anyCJK: document.fonts.check('32px "Noto Sans CJK SC"'),
-    }`),
+    fonts: fonts.json?.value ?? {},
   };
 
   await req('DELETE', `/session/${sid}`);

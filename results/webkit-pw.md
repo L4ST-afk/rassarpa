@@ -3,7 +3,7 @@
 - 引擎：webkit 27.2 · darwin
 - UA：`Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/27.2 Safari/605.1.15`
 - 属性支持：`text-autospace` 支持；`text-spacing-trim` 不支持
-- 字体：苹方 有｜宋体 有｜黑体 有｜Noto CJK 有
+- 字体：苹方 有｜宋体 有｜黑体 有｜Noto CJK 无
 
 | 项 | 读数 |
 |---|---|

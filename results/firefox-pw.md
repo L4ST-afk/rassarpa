@@ -3,7 +3,7 @@
 - 引擎：firefox 159.0 · darwin
 - UA：`Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:159.0) Gecko/20100101 Firefox/159.0`
 - 属性支持：`text-autospace` 支持；`text-spacing-trim` 不支持
-- 字体：苹方 有｜宋体 有｜黑体 有｜Noto CJK 有
+- 字体：苹方 有｜宋体 有｜黑体 有｜Noto CJK 无
 
 | 项 | 读数 |
 |---|---|

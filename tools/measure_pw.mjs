@@ -55,16 +55,28 @@ async function measure(pw, name) {
     if (!r) throw new Error('probe 没吐出 RESULT 串');
 
     // 字体探针：Linux 的 CI 上没有苹方／宋体／黑体，C7 那三条读数必然是 0，得标明原因
+    // ⚠️ 别用 document.fonts.check()——没装也返回 true；也别靠量字宽——macOS 的回退本身就是苹方，
+    // 量出来和「该字体」几乎同宽，分不清。改用 FontFace 的 local()：装了就 load 成功，没装 reject。
     r.env = {
       engine: name,
       engineVersion: browser.version(),
       platform: process.platform,
-      fonts: await page.evaluate(() => ({
-        pingfang: document.fonts.check('32px "PingFang SC"'),
-        songti: document.fonts.check('32px "Songti SC"'),
-        heiti: document.fonts.check('32px "Heiti SC"'),
-        anyCJK: document.fonts.check('32px "Noto Sans CJK SC"'),
-      })),
+      fonts: await page.evaluate(async () => {
+        const has = async (family) => {
+          try {
+            await new FontFace('probe', `local("${family}")`).load();
+            return true;
+          } catch {
+            return false;
+          }
+        };
+        return {
+          pingfang: await has('PingFang SC'),
+          songti: await has('Songti SC'),
+          heiti: await has('Heiti SC'),
+          anyCJK: await has('Noto Sans CJK SC'),
+        };
+      }),
     };
     return r;
   } finally {
