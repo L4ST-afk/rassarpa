@@ -207,7 +207,7 @@ def mix(s):
 
 - 版式变体：根容器追加 `.cjk--ancient`／`.cjk--poetry`／`.cjk--annotation`／`.cjk--columns-2/3/4`／`.cjk--vertical`（要点见 §G 表）。
 - 暗色随系统（§F）；主题换气质只调令牌，不动规则。
-- 出件前跑闸：`measure-cjk lint <页.html>`（装了的话）或 `python3 tools/selfcheck.py`；数字-量词混用查 `tools/check_spacing_consistency.py`。
+- 出件前跑闸：`measure-cjk lint <页.html>`（装了的话）或 `python3 tools/selfcheck.py`；数字-量词混用查 `tools/check_spacing_consistency.py`（只查正文，围栏代码块与行内代码里的示例不计数）。
 - ⛔ 与上游的关系：接入姿势同构，命名体系自有（`cjk-*`）；规则出处见 §七 依据。
 
 ## 六、反例（都是真见过）

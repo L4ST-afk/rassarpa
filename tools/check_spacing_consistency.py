@@ -21,8 +21,18 @@ from pathlib import Path
 
 CLF = "个位名次段条页字词题句行列格枚张件套种类"
 
+FENCE = re.compile(r"^```[\s\S]*?^```", re.M)     # 围栏代码块整段
+INLINE = re.compile(r"`[^`\n]*`")                  # 行内代码
+
+
+def prose_only(text: str) -> str:
+    """剥掉围栏代码块与行内代码：代码示例里的「3个」是样本，不是正文写法。
+    顺序不能反：先剥围栏再剥行内，否则围栏的三个反引号会被行内规则切成两截。"""
+    return INLINE.sub("", FENCE.sub("", text))
+
 
 def scan(text: str):
+    text = prose_only(text)
     a = re.findall(r"[0-9](?:[,，.][0-9]+)?[" + CLF + r"]", text)
     b = re.findall(r"[0-9] [" + CLF + r"]", text)
     return a, b
@@ -41,7 +51,13 @@ def self_test() -> int:
         a2, b2 = scan(g.read_text(encoding="utf-8"))
         if a2 and b2:
             print("[SELF-TEST] 阴性件被误判混用——假红"); return 3
-    print("[SELF-TEST] 混用件红／单形态件绿 ✓（闸有牙）")
+        # 代码块对照：混用只出现在围栏／行内代码里时，不算正文混用（剥掉的必须只是代码）
+        h = Path(td) / "code.md"
+        h.write_text("正文不含数字量词。\n\n```\n25个词／第 3 段\n```\n另见 `3个`。\n", encoding="utf-8")
+        a3, b3 = scan(h.read_text(encoding="utf-8"))
+        if a3 or b3:
+            print("[SELF-TEST] 代码块里的混用被算进正文——判据越界"); return 3
+    print("[SELF-TEST] 混用件红／单形态件绿／代码块不计数 ✓（闸有牙）")
     return 0
 
 
