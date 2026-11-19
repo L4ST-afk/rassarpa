@@ -69,6 +69,11 @@
 .cjk--ancient p { text-indent: 2em; }
 
 /* 诗词：无缩进、居中（与古文只差「是否缩进/居中」） */
+/* 诗词：宋体正文、诗节无缩进居中、标题楷体居中（与古文只差「是否缩进」） */
+.cjk--poetry { font-family: var(--cjk-font-serif); }
+.cjk--poetry h1, .cjk--poetry h2, .cjk--poetry h3 {
+  font-family: var(--cjk-font-kai, var(--cjk-font-serif)); font-weight: 700; text-align: center;
+}
 .cjk--poetry p { text-indent: 0; text-align: center; }
 
 /* 行间注：行高 2.25、去段距；着重号与 ruby 都不撑行高（最小可用 1.7／2 已测） */

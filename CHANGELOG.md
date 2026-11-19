@@ -13,3 +13,10 @@
 - **新增逐字光学修正**：`glyph_optical_correct.py`，按墨迹中心对齐而非字身框居中，解决网格里 `1` 发飘、`8` 偏左。
 - **自检**：`tools/selfcheck.py` 五项（API 名一致、引用在盘、§九编号有落点、开箱样式红线、混用检查器有牙），CI 同跑。
 - **已知缺口**：Safari 与 Firefox 未在本机实测，其单侧加间隙与跨元素边界丢缝来自 WebKit 记录，标「未复现」。
+- **修**：`cjk_spacing.js` 的跳过判定改为走完整祖先链（`closest`），此前只查直接父元素，`<code><span>中a</span></code>` 这类嵌套会把代码里的字也改掉。
+- **修**：`cjk_spacing.py` 同样改成按标签嵌套深度跳过 `pre/code/script/style`，此前 `SKIP_TAGS` 定义了却没用上。
+- **修**：`cjk_spacing.py` 会把串里已有的 ASCII 空格吃掉（`中 a 中` → `中a中`）。现按规范原样放回，⛔ 不改文本内容。
+- **删**：`CJKSpacing` 的 `quoteSet` 参数——存了不用，与文档宣称不符；引号切换归 CSS `q { quotes }`，`QUOTE_SET` 降为数据表。
+- **修**：`.cjk--poetry` 补齐宋体正文与楷体标题，与 §G 判据对齐。
+- **文案**：暗色一节写明只切 `color-scheme`、色板不预置；README 增「已知限制」三条。
+- **新增** `tests/test_spacing.py` 八条白盒回归（离线），CI 同跑；`THIRD_PARTY_NOTICES.md` 收 heti、pangu.js 的 MIT 全文。

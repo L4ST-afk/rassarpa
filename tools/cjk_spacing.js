@@ -51,6 +51,8 @@
     'cjk-spacing': 1, 'cjk-adjacent': 1, 'script': 1, 'style': 1
   }
   var CJK_SKIPPED_CLASS = 'cjk-skip'
+  // 祖先链任一层命中即跳过（closest 用；见 walkTextNodes 的注释）
+  var SKIP_SELECTOR = 'pre, code, sup, sub, script, style, cjk-spacing, cjk-adjacent, .' + CJK_SKIPPED_CLASS
 
   function hasOwn(o, k) { return Object.prototype.hasOwnProperty.call(o, k) }
 
@@ -75,7 +77,9 @@
         if (!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT
         var p = node.parentNode
         if (!p) return NodeFilter.FILTER_REJECT
-        if (hasOwn(CJK_SKIPPED_ELEMENTS, p.nodeName.toLowerCase())) return NodeFilter.FILTER_REJECT
+        // 判整个祖先链，不只看直接父元素：<code><span>中a</span></code> 的父元素是 span，
+        // 只看一层就会把代码里的字也改掉。
+        if (p.nodeType === 1 && p.closest(SKIP_SELECTOR)) return NodeFilter.FILTER_REJECT
         if (p.classList && p.classList.contains(CJK_SKIPPED_CLASS)) return NodeFilter.FILTER_REJECT
         if (filter && !filter(node)) return NodeFilter.FILTER_REJECT
         return NodeFilter.FILTER_ACCEPT
@@ -98,7 +102,8 @@
 
   function CJKSpacing(rootSelector, opts) {
     this.rootSelector = rootSelector || '.cjk'
-    this.quoteSet = (opts && opts.quoteSet) || 'common'
+    // 引号切换不在这里做：弯直引号的取舍走 CSS `q { quotes: ... }`（SKILL.md §B）。
+    // CJKSpacing.QUOTE_SET 只是各语域的预设数据，供使用方取用，脚本不自动替换字符。
     var lookbehind = true
     try { new RegExp('(?<=x)x', 'g').test('') } catch (e) { lookbehind = false }
     this.lookbehind = lookbehind

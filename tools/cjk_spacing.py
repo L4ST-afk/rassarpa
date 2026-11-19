@@ -68,6 +68,10 @@ def _wrap_adj(text, kind):
 def mix_text(text):
     """对单段纯文本应用全部规则。"""
     def _b(m):
+        # 已有 ASCII 空格：规范规定该处不再补，原样放回（⛔ 不许把空格吃掉——
+        # 那会改掉文本内容，复制／搜索都会跟着变）
+        if ' ' in m.group(0):
+            return m.group(0)
         return _wrap_spacing(m.group(2), m.group(1), m.group(3))
     text = RE_BOUNDARY.sub(_b, text)
     text = RE_HALF.sub(lambda m: _wrap_adj(m.group(0), 'half'), text)
@@ -80,13 +84,23 @@ _TAG_RE = re.compile(r'(<!--.*?-->|<[^>]+>)', re.S)
 
 
 def mix_html(html):
-    """把 HTML 切为标签/文本段，只对文本段应用规则（跳过 pre/code/... 内的文本）。"""
+    """把 HTML 切为标签/文本段，只对文本段应用规则；SKIP_TAGS 内的文本一律不动。
+
+    要按标签**嵌套深度**判，不能只看相邻标签：`<code><span>中a</span></code>` 里那层
+    `<span>` 与 `<code>` 不相邻，只看相邻标签就会把代码里的字也改掉。
+    """
     out = []
+    skip_depth = 0
     for i, part in enumerate(_TAG_RE.split(html)):
         if i % 2 == 1:  # 标签
             out.append(part)
+            m = re.match(r'<\s*(/?)\s*([a-zA-Z][\w:-]*)\b', part)
+            if m:
+                closing, name = m.group(1) == '/', m.group(2).lower()
+                if name in SKIP_TAGS:
+                    skip_depth = max(0, skip_depth - 1) if closing else skip_depth + 1
             continue
-        out.append(mix_text(part))
+        out.append(part if skip_depth else mix_text(part))
     return ''.join(out)
 
 
