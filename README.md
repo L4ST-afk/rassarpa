@@ -18,7 +18,7 @@ Rassarpa 是拉丁名，罗蛇是中文名。目录、包名、分支一律用 `
 
 ## 先说这块是空的
 
-Chrome 团队那套《Modern Web Guidance》有 209 篇指南，正文里 `autospace` 与 `CJK` 各命中 **0 次**（离线包 1.0.0＋`5e5cd33`，2026-11-20 检索）。最接近的一篇 `visual-design/typography.md` 只给西文口径：`line-height: 1.5`、`max-width: 60ch`——对中文，前者是下限，后者偏宽。
+Chrome 团队那套《Modern Web Guidance》一共 209 篇指南，逐篇搜下来，`autospace` 和 `CJK` 一次都没出现。最接近的一篇 `visual-design/typography.md` 只讲西文：`line-height: 1.5`、`max-width: 60ch`——对中文，前者是下限，后者偏宽。查的是哪个版本、怎么搜的，记在 [docs/上游与许可.md](docs/上游与许可.md)。
 
 W3C 那篇讲行内空白的文章至今写「目前没有浏览器会在不加样式时插入间隙」，三家引擎却都已支持 `text-autospace`，且**初始值都是关闭**。教程大多照前半句写，浏览器按后半句走，两个人量同一段文字会得出两个答案。
 

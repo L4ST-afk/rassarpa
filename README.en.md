@@ -9,7 +9,7 @@
 
 Rassarpa is a rule set — plus two small scripts and one stylesheet — for Chinese text that carries English words and Arabic digits. It handles one seam: the gap between an ideograph and a Latin run, and everything that decision touches.
 
-**This seam is unoccupied ground.** Chrome's Modern Web Guidance ships 209 guides; `autospace` and `CJK` each appear **zero** times in them (offline package 1.0.0 + `5e5cd33`, checked 2026-11-20). The nearest guide, `visual-design/typography.md`, is Latin-only: `line-height: 1.5`, `max-width: 60ch` — a floor and a width that is too generous for Chinese.
+**This seam is unoccupied ground.** Chrome's Modern Web Guidance ships 209 guides; searching every one of them turns up `autospace` and `CJK` **zero** times. Version and search method: [docs/上游与许可.md](docs/上游与许可.md). The nearest guide, `visual-design/typography.md`, is Latin-only: `line-height: 1.5`, `max-width: 60ch` — a floor and a width that is too generous for Chinese.
 
 **Measured, not quoted** (HeadlessChrome 158, macOS, PingFang SC):
 
