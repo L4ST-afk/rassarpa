@@ -18,7 +18,7 @@ Rassarpa 是拉丁名，罗蛇是中文名。目录、包名、分支一律用 `
 
 Chrome 团队那套《Modern Web Guidance》有 209 篇指南，正文里 `autospace` 与 `CJK` 各命中 **0 次**（离线包 1.0.0＋`5e5cd33`，2026-11-20 检索）。最接近的一篇 `visual-design/typography.md` 只给西文口径：`line-height: 1.5`、`max-width: 60ch`——对中文，前者是下限，后者偏宽。
 
-W3C 那篇讲行内空白的文章至今写「目前没有浏览器会在不加样式时插入间隙」，三家引擎却都已支持 `text-autospace`，且**初始值都是关闭**。教程照着前半句写，读者照着后半句量，量出来对不上。
+W3C 那篇讲行内空白的文章至今写「目前没有浏览器会在不加样式时插入间隙」，三家引擎却都已支持 `text-autospace`，且**初始值都是关闭**。教程大多照前半句写，浏览器按后半句走，两个人量同一段文字会得出两个答案。
 
 两处说法对不上，中间没有人量过。这个仓就做这一件事：给四个读数、两种错法、一条默认。
 
@@ -35,7 +35,7 @@ W3C 那篇讲行内空白的文章至今写「目前没有浏览器会在不加�
 | 挤压 · PingFang SC | −16px |
 | 挤压 · Songti SC / Heiti SC | 0（`CSS.supports()` 却返回 true） |
 
-要四分空，给盒子；要省事，交给引擎，认下它只给一半。⛔ 别用普通空格凑。
+要精确的四分空就加 `.mx` 空盒；省事交给 `text-autospace`，得接受它只给八分，正好一半。⛔ 别用普通空格凑。
 
 量法与复跑见 [docs/测量方法.md](docs/测量方法.md)。
 
@@ -59,7 +59,7 @@ W3C 那篇讲行内空白的文章至今写「目前没有浏览器会在不加�
 
 整个目录放进你的 agent 的 skills 目录，`SKILL.md` 即判据正本（356 行，含反例、何时用／不用、体量预算、上游声明）。细则卷按问题取，⛔ 不通读七卷。
 
-不想克隆：去 [Releases](https://github.com/L4ST-afk/rassarpa/releases/latest) 下 `rassarpa-0.1.1-skill.zip`，解压即得一整个技能目录（六项交付面全绿）。
+不想克隆：去 [Releases](https://github.com/L4ST-afk/rassarpa/releases/latest) 下 `rassarpa-0.1.1-skill.zip`，解压就是一个完整的技能目录，装好跑一遍上面的自检即算到位。
 
 判据只有一份正本：`SKILL.md`。与细则卷冲突时，改细则卷。
 
@@ -122,9 +122,9 @@ results/                  实测读数（JSON + Markdown）
 
 ## 名字与题图
 
-罗蛇／Rassarpa 来自谢灵运与罗浮山，「罗，罗山也；浮，浮山也」的二名对举，龟蛇交叉换位。来历见 [references/naming.md](references/naming.md)，只记录名字，不改行为。
+罗蛇／Rassarpa 取自谢灵运《罗浮山赋》的「罗，罗山也；浮，浮山也」——罗山与浮山相峙，一龟一蛇在图上对位，取名时把两边各取一字。来历见 [references/naming.md](references/naming.md)，只记录名字，不影响任何判据。
 
-题图为蛇鳞盘成的 S 形，题诗「汉一格，西一词，相接空四分」。位图原件不进仓库，导出规则与缺口见 [docs/封面.md](docs/封面.md)。
+题图位图原件不进仓库；题诗、导出规则与两处待核见 [docs/封面.md](docs/封面.md)。
 
 ## 索引词
 
