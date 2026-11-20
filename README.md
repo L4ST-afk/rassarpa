@@ -133,7 +133,7 @@ results/                  实测读数（JSON + Markdown）：Chrome 本体、�
 
 罗蛇／Rassarpa 取自谢灵运《罗浮山赋》的「罗，罗山也；浮，浮山也」——罗山与浮山相峙，一龟一蛇在图上对位，取名时把两边各取一字。来历见 [references/naming.md](references/naming.md)，只记录名字，不影响任何判据。
 
-题图位图原件不进仓库；题诗、导出规则与两处待核见 [docs/封面.md](docs/封面.md)。
+题图位图原件不进仓库；题诗、导出规则与字形说明（拉丁名用的是 Kosmos 艺术字，不是镜像）见 [docs/封面.md](docs/封面.md)。
 
 ## 索引词
 

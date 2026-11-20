@@ -42,5 +42,5 @@
 - **修**：`.cjk--poetry` 补齐宋体正文与楷体标题，与 §G 判据对齐。
 - **文案**：暗色一节写明只切 `color-scheme`、色板不预置；README 增「已知限制」三条。
 - **新增** `tests/test_spacing.py` 八条白盒回归（离线），CI 同跑；`THIRD_PARTY_NOTICES.md` 收 heti、pangu.js 的 MIT 全文。
-- **题图**：`docs/cover.jpg`（1280 × 853，289 KB）从题图库 `cover-v2-1536.jpg` 按 `sips -Z 1280 -s formatOptions 72` 导出，首页宽 720 压在标题下；位图原件不进仓库。出处、导出与两处待核见 `docs/封面.md`。
+- **题图**：`docs/cover.jpg`（1280 × 853，289 KB）从题图库 `cover-v2-1536.jpg` 按 `sips -Z 1280 -s formatOptions 72` 导出，首页宽 720 压在标题下；位图原件不进仓库。出处、导出与字形说明见 `docs/封面.md`。
 - **文案**：README 增「先说这块是空的」一节，写清为什么值得开这个仓：Chrome《Modern Web Guidance》209 篇指南里 `autospace`／`CJK` 命中为 0（离线包 1.0.0 + `5e5cd33`，2026-11-20 检索），最近的 `visual-design/typography.md` 只有西文口径。
