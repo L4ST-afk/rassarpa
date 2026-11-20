@@ -11,6 +11,7 @@
 - **新**：`tools/check_engines.py` —— 跨引擎三条不变式（不声明等于关闭、已有空格不补、`.mx` 四分空）进 CI；`check_readings.py` 只管 Chrome 那份，两者分工写进脚本注释。
 - **新**：CI 加 `engines` job，Ubuntu 上真起两家引擎，读数作为 artifact 留档。
 - **改**：`docs/判据表.md` 加「证据」列，三种等级：实测／引擎记录／实现约束。C1、C2、C4 由「实测一家」升为三家；C5 记下两家的差别；C6 由纯引擎记录变成「WebKit 构建实测＋Safari 本体待跑」。
+- **新**：题图换 v2.1（`cover-v2-1536-v2.jpg`），订正西文名用字；逐像素比对，两版差异只在下方拉丁名的单个字母上。
 - **修**：字体探针不能用 `document.fonts.check()`（没装也返回 true），也不能靠量字宽（macOS 回退本身就是苹方，分不清）。改用 `FontFace` 的 `local()`：装了就 load 成功。
 
 ## 0.1.1（2026-11-20）
