@@ -39,9 +39,9 @@ def expected_from(needle: str) -> float:
 def load_deltas(results_dir: Path) -> list[tuple[str, dict]]:
     out = []
     for f in sorted(glob.glob(str(results_dir / "*.json"))):
-        # README 那四个读数是 Chrome 本体的口径；跨引擎那几份（*-pw）字体与引擎都不同，
-        # 归 tools/check_engines.py 管，不在这里比。
-        if Path(f).stem.endswith("-pw"):
+        # README 那四个读数是 Chrome 本体的口径（挤压 −16px 只在 Chrome 上成立）；
+        # 跨引擎那几份（*-pw.json、safari.json）字号与引擎都不同，归 tools/check_engines.py 管。
+        if Path(f).stem.endswith("-pw") or Path(f).stem.startswith("safari"):
             continue
         data = json.loads(Path(f).read_text(encoding="utf-8"))
         delta = data.get("delta")

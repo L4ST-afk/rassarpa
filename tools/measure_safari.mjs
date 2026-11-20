@@ -149,6 +149,8 @@ try {
 | 每缝包空 span | ${d.empty_spans_delta}px |
 | \`.mx\` 盒 | ${d.mx_32}px（${d.mx_em} em） |
 | 挤压（苹方／宋体／黑体） | ${d.trim_pingfang}／${d.trim_songti}／${d.trim_heiti}px |
+
+${r.supports.spacingTrim ? '' : '> 这个 Safari 不支持 `text-spacing-trim`，挤压三条读数为 0 是「属性没有」，⛔ 不能和 C7 混着读。\n'}
 `);
 
   console.log(`✅ Safari ${r.env.engineVersion}：间隙 ${d.gap_em} em，元素边界 ${d.element_delta}px，包 span ${d.empty_spans_delta}px`);

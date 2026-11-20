@@ -7,7 +7,7 @@
 把「Safari 与 Firefox 未实测」这件事做实。
 
 - **新**：`tools/measure_pw.mjs` —— 同一份 probe 交 Playwright 起 Firefox 159 与 WebKit 27.2 各量一遍。三家读数：间隙都是 0.125 em，不声明都等于关闭；差别在跨元素边界，Chrome／Firefox 两缝各补 4px 共 8px，WebKit 只补一侧共 4px，且每缝包空 span 会把那 4px 打掉。
-- **新**：`tools/measure_safari.mjs` —— 走系统 safaridriver 量 Safari 本体。构建不等于本体，WebKit 读数不能改口成 Safari。
+- **新**：`tools/measure_safari.mjs` —— 走系统 safaridriver 量 Safari 本体。2026-11-20 在 Safari 18.6 上跑通：间隙 0.125 em、不声明等于关闭、两缝只补 4px、包空 span 后掉到 0，与 WebKit 27.2 构建逐项一致。
 - **新**：`tools/check_engines.py` —— 跨引擎三条不变式（不声明等于关闭、已有空格不补、`.mx` 四分空）进 CI；`check_readings.py` 只管 Chrome 那份，两者分工写进脚本注释。
 - **新**：CI 加 `engines` job，Ubuntu 上真起两家引擎，读数作为 artifact 留档。
 - **改**：`docs/判据表.md` 加「证据」列，三种等级：实测／引擎记录／实现约束。C1、C2、C4 由「实测一家」升为三家；C5 记下两家的差别；C6 由纯引擎记录变成「WebKit 构建实测＋Safari 本体待跑」。

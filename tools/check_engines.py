@@ -26,9 +26,10 @@ from pathlib import Path
 
 def main() -> int:
     results = Path(sys.argv[1] if len(sys.argv) > 1 else "results")
-    files = sorted(glob.glob(str(results / "*-pw.json")))
+    # Playwright 起的两家（*-pw.json）与 Safari 本体（safari.json）一起验：这三条不变式不分载体。
+    files = sorted(set(glob.glob(str(results / "*-pw.json")) + glob.glob(str(results / "safari*.json"))))
     if not files:
-        print(f"❌ {results} 下没有 *-pw.json，先跑 node tools/measure_pw.mjs")
+        print(f"❌ {results} 下没有 *-pw.json 或 safari*.json，先跑 node tools/measure_pw.mjs / tools/measure_safari.mjs")
         return 1
 
     bad: list[str] = []
