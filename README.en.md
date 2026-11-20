@@ -9,6 +9,8 @@
 
 Rassarpa is a rule set — plus two small scripts and one stylesheet — for Chinese text that carries English words and Arabic digits. It handles one seam: the gap between an ideograph and a Latin run, and everything that decision touches.
 
+Chinese name 罗蛇 (luó shé); Rassarpa is the Latin name, taken from Xie Lingyun's *Rofu shan fu*. Package, directory and branch names all use `rassarpa` — search either 罗蛇 or Rassarpa.
+
 **This seam is unoccupied ground.** Chrome's Modern Web Guidance ships 209 guides; searching every one of them turns up `autospace` and `CJK` **zero** times. Version and search method: [docs/上游与许可.md](docs/上游与许可.md). The nearest guide, `visual-design/typography.md`, is Latin-only: `line-height: 1.5`, `max-width: 60ch` — a floor and a width that is too generous for Chinese.
 
 **Measured, not quoted** (HeadlessChrome 158, macOS, PingFang SC):
