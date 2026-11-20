@@ -5,10 +5,10 @@
 
   A1  API 名一致：SKILL.md 里 `new Xxx(` 形态的调用，真名必须存在于 tools/ 源码
       （2026-11-14 三方交叉评审判「不过」的死承诺：正文调用名与 tools 真名不一致。2026-11-15 洗名后本 skill 自有命名 CJKSpacing/cjk-*，A1 守「调用名＝真名」这条契约）
-  A2  引用齐全：SKILL.md 点名的 references/*.md 与 tools/*.py|js 全部存在
+  A2  引用在盘：SKILL.md 点名的 references/*.md 与 tools/*.py|js 全部存在
   A3  编号有落点：SKILL.md §九展开的 T/F 编号（**T01** 等粗体形态）逐一有正文小节
   A4  开箱样式红线：cjk-typo.css 无负 letter-spacing（T07）、font-size ≥12px（T11）、
-      正文基线行高 ≥1.5（T06）；A2 已覆盖其存在与被点名
+      正文基线行高 ≥1.5（T06）；A2 已覆盖其在盘与被点名
 
   python3 tools/selfcheck.py            # 三断言＋C1
   python3 tools/selfcheck.py --self-test  # 变异自证：临时副本改坏 API 名，A1 必红（判反 rc=3）
@@ -33,7 +33,7 @@ def a1_api_names(skill_md: str) -> list:
 
 
 def a2_refs(skill_md: str) -> list:
-    """SKILL.md 点名的 references/*.md 与 tools/* 全部存在。"""
+    """SKILL.md 点名的 references/*.md 与 tools/* 全部在盘。"""
     named = set(re.findall(r"`(references/[^`]+?\.md|tools/[^`]+?\.(?:py|js))`", skill_md))
     return [n for n in sorted(named) if not (ROOT / n).exists()]
 
@@ -87,7 +87,7 @@ def main() -> int:
         problems.append(f"A1 API 名死承诺（SKILL.md 调用了 tools/ 里不存在的名字）：{a1}")
     a2 = a2_refs(skill_md)
     if a2:
-        problems.append(f"A2 点名文件缺：{a2}")
+        problems.append(f"A2 点名文件不在盘：{a2}")
     a3 = a3_rule_ids(skill_md)
     if a3:
         problems.append(f"A3 §九编号无展开落点：{a3}")
@@ -96,7 +96,7 @@ def main() -> int:
         problems.append(f"A4 开箱样式红线：{a4}")
     checker = ROOT / "tools" / "check_spacing_consistency.py"
     if not checker.exists():
-        problems.append("C1 check_spacing_consistency.py 缺文件")
+        problems.append("C1 check_spacing_consistency.py 不在盘")
     else:
         r = subprocess.run([sys.executable, str(checker), "--self-test"], capture_output=True, text=True, timeout=60)
         if r.returncode != 0:
@@ -120,7 +120,7 @@ def main() -> int:
         for p in problems:
             print("  -", p)
         return 1
-    print("✅ A1 API 名一致｜A2 引用齐全｜A3 §九编号有落点｜A4 开箱样式红线｜C1 混用检查器有牙")
+    print("✅ A1 API 名一致｜A2 引用在盘｜A3 §九编号有落点｜A4 开箱样式红线｜C1 混用检查器有牙")
     return 0
 
 

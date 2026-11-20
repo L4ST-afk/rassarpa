@@ -10,8 +10,10 @@
 import { JSDOM } from 'jsdom'
 import fs from 'node:fs'
 import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 
-const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..')
+// fileURLToPath 会解码百分号；直接用 URL.pathname 时中文目录名（罗蛇Rassarpa）会被编码成 %E7%BD%97… 而 ENOENT。
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const SRC = fs.readFileSync(path.join(ROOT, 'tools/cjk_spacing.js'), 'utf8')
 
 let pass = 0
