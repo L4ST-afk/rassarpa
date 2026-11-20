@@ -67,3 +67,7 @@ License: 代码 Apache-2.0；字体授权数据 CC BY 4.0。
 Used for: 网页硬规则编号体系（T01–T19／F03–F06）与校验纪律。
 
 **本仓不转载其代码与数据**：`measure.css` 与 `data/licenses.json` 均未内置，取法与许可见 `docs/上游与许可.md` 与 `NOTICE`。Apache-2.0 全文见 https://www.apache.org/licenses/LICENSE-2.0。
+
+## 题图（第一方素材）
+
+`docs/cover.jpg` 是作者自制（L4ST-afk），不是第三方素材：图中素材与所用字体均为可免费商用或作者已购商用授权，字体不随仓分发。授权陈述与日期见 `docs/封面.md` 的「授权」一节。

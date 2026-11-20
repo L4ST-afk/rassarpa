@@ -81,7 +81,8 @@ def main() -> int:
         for line in bad:
             print("   " + line)
         return 1
-    print(f"✅ 读数对得上：{len(sets)} 份 results，{len(CLAIMS)} 处口径一致")
+    print(f"✅ 读数对得上：Chrome 本体 {len(sets)} 份结果，{len(CLAIMS)} 处口径一致。")
+    print("   跨引擎那几份（firefox/webkit/safari）不在这里核，归 tools/check_engines.py。")
     return 0
 
 

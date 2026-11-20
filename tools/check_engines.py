@@ -33,6 +33,7 @@ def main() -> int:
         return 1
 
     bad: list[str] = []
+    strict = 0
     for f in files:
         data = json.loads(Path(f).read_text(encoding="utf-8"))
         name = Path(f).name
@@ -51,7 +52,8 @@ def main() -> int:
 
         if sup.get("autospace"):
             if d.get("gap_em") == 0.125:
-                pass
+                if platform == "darwin":
+                    strict += 1
             elif platform == "darwin":
                 # macOS 上有中文字体，读数与声明不符就是真出问题
                 bad.append(f"{name}：声明支持 autospace，间隙却是 {d.get('gap_em')} em，应 0.125")
@@ -74,7 +76,10 @@ def main() -> int:
         for line in bad:
             print("   " + line)
         return 1
-    print(f"✅ 跨引擎 {len(files)} 份：三条不变式全过；条件式按各引擎支持情况判定")
+    print(
+        f"✅ 跨引擎 {len(files)} 份：三条不变式全过；"
+        f"间隙在 darwin 上按 0.125 em 逐份核（{strict} 份），其他平台只记录（{len(files) - strict} 份）"
+    )
     return 0
 
 
