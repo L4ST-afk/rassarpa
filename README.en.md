@@ -5,13 +5,13 @@
 
 [中文](README.md) · English
 
-<img src="docs/cover.jpg" alt="Rassarpa — snake scales coiled into an S, deep green and amber, over the line 汉一格，西一词，相接空四分" width="720">
+<img src="docs/cover.jpg" alt="Rassarpa — snake scales coiled into an S, deep green and amber, over the line '汉一格，西一词，相接空四分'" width="720">
 
 Rassarpa is a rule set — plus two small scripts and one stylesheet — for Chinese text that carries English words and Arabic digits. It handles one seam: the gap between an ideograph and a Latin run, and everything that decision touches.
 
-Chinese name 罗蛇 (luó shé); Rassarpa is the Latin name, taken from Xie Lingyun's *Rofu shan fu*. Package, directory and branch names all use `rassarpa` — search either 罗蛇 or Rassarpa.
+Chinese name 罗蛇 (luó shé); Rassarpa is the Latin name, taken from Xie Lingyun's *Luofu Shan Fu*. Package, directory and branch names all use `rassarpa` — search either 罗蛇 or Rassarpa.
 
-**This seam is unoccupied ground.** Chrome's Modern Web Guidance ships 209 guides; searching every one of them turns up `autospace` and `CJK` **zero** times. Version and search method: [docs/上游与许可.md](docs/上游与许可.md). The nearest guide, `visual-design/typography.md`, is Latin-only: `line-height: 1.5`, `max-width: 60ch` — a floor and a width that is too generous for Chinese.
+**This seam is unoccupied ground.** Chrome's Modern Web Guidance ships 209 guides; searching every one of them turns up `autospace` and `CJK` **zero** times. Version and search method: [docs/上游与许可.md](docs/上游与许可.md). The nearest guide, `visual-design/typography.md`, is Latin-only: `line-height: 1.5`, `max-width: 60ch` — a floor and a width that are too generous for Chinese.
 
 **Measured, not quoted** (HeadlessChrome 158, macOS, PingFang SC):
 
@@ -37,14 +37,14 @@ So the default here is the sized box, not the CSS property: **quarter-em is the 
 ```
 
 - `lang` on the root element is mandatory; no stylesheet replaces it.
-- `class="cjk"` only turns off the engine's automatic spacing; it produces no gap by itself. The quarter-em gap comes either from `.mx` empty boxes or from the `cjk-spacing` elements the script inserts (0.25 em margin), symmetric, and no characters are copied out with the text.
+- `class="cjk"` only turns off the engine's automatic spacing; it produces no gap by itself. The quarter-em gap comes either from `.mx` empty boxes or from the `cjk-spacing` elements the script inserts (0.25 em on the boundary side alone) — nothing is added to the text, so nothing extra is copied out.
 - `class="cjk--autospace"` hands the gap to the engine instead: 1/8 em, one-sided in Safari, no punctuation squeezing.
 
 ## Install and self-check
 
 Two ways in, pick one:
 
-- **As an agent skill**: grab `rassarpa-0.1.1-skill.zip` from [Releases](https://github.com/L4ST-afk/rassarpa/releases/latest), unzip, then move the whole folder into your agent's `skills directory` (the folder name stays `rassarpa`). `SKILL.md` is the rule book; scripts and `references/` are read on demand.
+- **As an agent skill**: grab `rassarpa-0.1.1-skill.zip` from [Releases](https://github.com/L4ST-afk/rassarpa/releases/latest), unzip, then move the whole folder into your agent's skills directory (the folder name stays `rassarpa`). `SKILL.md` is the rule book; scripts and `references/` are read on demand.
 - **As plain web code**: copy `tools/cjk-typo.css` and `tools/cjk_spacing.js` into your page and follow the snippet above. Nothing else is required.
 
 Then verify — this script is the repository's selftest:
