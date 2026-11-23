@@ -112,6 +112,12 @@ ${r.supports.spacingTrim
 `;
 }
 
+if (only && !ENGINES.includes(only)) {
+  // 引擎名打错时循环会一个都不跑、failed 仍为空，于是「没测」被当成「通过」（2026-11-23 补）
+  console.error(`❌ 未知引擎 ${only}；可选：${ENGINES.join(' / ')}`);
+  process.exit(2);
+}
+
 const pw = await import('playwright');
 await mkdir(OUT, { recursive: true });
 

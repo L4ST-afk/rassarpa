@@ -40,7 +40,9 @@ BD_HALF_START = BD_HALF_OPEN + BD_HALF_CLOSE
 
 INNER = rf'[{ANS}]+(?: +[{ANS}]+)*'
 # 单遍：捕获可选的"前置汉字 / 西文片段 / 后置汉字"，据此决定间隙落哪一侧
-RE_BOUNDARY = re.compile(rf'([{IDEO}]|[{ANS}]+)? *({INNER}) *([{IDEO}])?')
+# 前置组只收「一个汉字」：此前它是 `[{ANS}]+`，对纯英文文本节点会回吐成
+# "hell"+"o"，单词内部凭空多出一个间隙元素（2026-11-23 补）
+RE_BOUNDARY = re.compile(rf'([{IDEO}])? *({INNER}) *([{IDEO}])?')
 RE_HALF = re.compile(rf'([{BD_STOP}])(?=[{BD_START}])|([{BD_OPEN}])(?=[{BD_OPEN}])|([{BD_CLOSE}])(?=[{BD_END}])')
 RE_QUARTER_SEP = re.compile(rf'([{BD_SEP}])(?=[{BD_OPEN}])|([{BD_CLOSE}])(?=[{BD_SEP}])')
 RE_QUARTER_HALF = re.compile(rf'([{BD_STOP}])(?=[{BD_HALF_START}])|([{BD_HALF_OPEN}])(?=[{BD_OPEN}])')

@@ -2,6 +2,14 @@
 
 `[中文](CHANGELOG.md) · [English](CHANGELOG.en.md)`
 
+## 未发版（2026-11-23）
+
+外部代码审查（GitHub Copilot CLI 只读模式）1 中 2 低：
+
+- **纯英文文本节点不再被插间隙**：`RE_BOUNDARY` 的前置组原是 `[{ANS}]+`，对 `<p>hello</p>` 会回吐成 `hell` + `o`，单词内部多出一个 `cjk-spacing` 元素。改为「前置组只收一个汉字」。
+- **README 说清了 `.cjk` 的实际作用**：它只关掉引擎自动间距，四分空来自 `.mx` 空盒或脚本插的 `cjk-spacing` 元素；原来两步写法让人以为引了样式就有默认四分空。
+- **`measure_pw.mjs` 遇未知引擎不再假通过**：`--engine typo` 原本循环全跳过、`failed` 为空、退出码 0；现在前置校验并退出 2。
+
 ## 0.1.1 之后（未发版）
 
 把「Safari 与 Firefox 未实测」这件事做实。

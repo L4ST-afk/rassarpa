@@ -37,7 +37,7 @@ So the default here is the sized box, not the CSS property: **quarter-em is the 
 ```
 
 - `lang` on the root element is mandatory; no stylesheet replaces it.
-- The gap comes from `.mx` boxes at 1/4 em, symmetric, and no characters are copied out with the text.
+- `class="cjk"` only turns off the engine's automatic spacing; it produces no gap by itself. The quarter-em gap comes either from `.mx` empty boxes or from the `cjk-spacing` elements the script inserts (0.25 em margin), symmetric, and no characters are copied out with the text.
 - `class="cjk--autospace"` hands the gap to the engine instead: 1/8 em, one-sided in Safari, no punctuation squeezing.
 
 ## Install and self-check

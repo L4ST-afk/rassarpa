@@ -2,6 +2,14 @@
 
 [中文](CHANGELOG.md) · English
 
+## Unreleased (2026-11-23)
+
+External code review (GitHub Copilot CLI, read-only), 1 medium / 2 low:
+
+- **Pure English text nodes no longer get a spacing element**: the leading group of `RE_BOUNDARY` was `[{ANS}]+`, so `<p>hello</p>` came back as `hell` + `o` with a `cjk-spacing` element inside the word. It now captures a single ideograph only.
+- **README states what `.cjk` actually does**: it only disables the engine's automatic spacing; the quarter-em gap comes from `.mx` boxes or the `cjk-spacing` elements the script inserts.
+- **`measure_pw.mjs` no longer passes on an unknown engine**: `--engine typo` used to skip every engine, leave `failed` empty and exit 0; it is now validated up front and exits 2.
+
 ## 0.1.1 (2026-11-20)
 
 Fixes found the same day the first release went out, all in the "mangles the user's text" and "breaks on someone else's machine" categories.
