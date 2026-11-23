@@ -10,6 +10,16 @@ External code review (GitHub Copilot CLI, read-only), 1 medium / 2 low:
 - **README states what `.cjk` actually does**: it only disables the engine's automatic spacing; the quarter-em gap comes from `.mx` boxes or the `cjk-spacing` elements the script inserts.
 - **`measure_pw.mjs` no longer passes on an unknown engine**: `--engine typo` used to skip every engine, leave `failed` empty and exit 0; it is now validated up front and exits 2.
 
+## Unreleased (2026-11-23, second batch: CI gate)
+
+CI review (GitHub Copilot CLI, read-only), 3 medium / 3 low, adopted as follows:
+
+- **Fixed**: the mutation arm of `tools/selfcheck.py --self-test` edited the first occurrence of `CJKSpacing`, which sits in prose, so the real `new CJKSpacing(...)` call was untouched and the self-test could only ever report "the gate has teeth". It now mutates the call site and the mutant is rejected as it should be (locally `rc=0`, previously `rc=3`).
+- **CI added**: `python3 tools/selfcheck.py --self-test` in the `checks` job, so a toothless self-check now fails.
+- **CI added**: workflow-level `permissions: contents: read`, `concurrency` to cancel superseded runs, timeouts (20 min `checks`, 35 min `engines`), and `cache: npm` on both `setup-node` steps.
+- **CI changed**: third-party actions pinned to commit SHAs with the version kept in a comment.
+- **Not adopted**: dropping the darwin restriction in `check_engines.py`. Linux CI has no 苹方/宋体, so engines add no gap there by environment, not by regression; making that a gate would manufacture false reds.
+
 ## 0.1.1 (2026-11-20)
 
 Fixes found the same day the first release went out, all in the "mangles the user's text" and "breaks on someone else's machine" categories.

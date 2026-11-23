@@ -106,7 +106,9 @@ def main() -> int:
         # 变异臂：临时副本把 CJKSpacing 改成坏名，A1 必须能抓到
         with tempfile.TemporaryDirectory() as td:
             tmp = Path(td) / "SKILL.md"
-            bad = skill_md.replace("CJKSpacing", "NoSuchSpacing", 1)
+            # 变异必须落在真正的调用点上：第一个 CJKSpacing 出现在说明文字里，改它
+            # 会让 A1 什么也看不见，自检变「永远绿」——那闸就白装了。
+            bad = skill_md.replace("new CJKSpacing(", "new NoSuchSpacing(", 1)
             if bad == skill_md:
                 print("[SELF-TEST] 变异失败：未找到 CJKSpacing 可改"); return 3
             tmp.write_text(bad, encoding="utf-8")

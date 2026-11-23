@@ -10,6 +10,16 @@
 - **README 说清了 `.cjk` 的实际作用**：它只关掉引擎自动间距，四分空来自 `.mx` 空盒或脚本插的 `cjk-spacing` 元素；原来两步写法让人以为引了样式就有默认四分空。
 - **`measure_pw.mjs` 遇未知引擎不再假通过**：`--engine typo` 原本循环全跳过、`failed` 为空、退出码 0；现在前置校验并退出 2。
 
+## 未发版（2026-11-23，第二批：CI 门禁）
+
+CI 审查（GitHub Copilot CLI 只读模式）3 中 3 低，采纳如下：
+
+- **修**：`tools/selfcheck.py --self-test` 的变异点原本改的是说明文字里的 `CJKSpacing`（第一个出现处），真正的调用仍叫 `new CJKSpacing(...)`，于是自检恒判「闸有牙」却不真验证——现在改到调用点 `new CJKSpacing(`，变异件如实判红（本地 `rc=0`，此前 `rc=3`）。
+- **CI 加**：`python3 tools/selfcheck.py --self-test` 进 `checks` job，自检本身退化会红。
+- **CI 加**：工作流级 `permissions: contents: read`；`concurrency` 取消同分支旧跑；`checks` 15→20 分钟、`engines` 35 分钟时限；两处 `setup-node` 开 `cache: npm`。
+- **CI 改**：三个第三方 action pin 到 commit SHA（注释留 `# v4` / `# v5`）。
+- **不采纳**：`check_engines.py` 的 darwin 限制。Linux CI 没有苹方／宋体，缺字体时引擎本就不加间隙，把这条差异当门禁只会造出假红；口径已在脚本注释与 `docs/判据表.md` 证据列写清。
+
 ## 0.1.1 之后（未发版）
 
 把「Safari 与 Firefox 未实测」这件事做实。
