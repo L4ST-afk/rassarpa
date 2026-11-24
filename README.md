@@ -104,7 +104,7 @@ python3 tools/glyph_optical_correct.py --font <字体> --size 75 --mode fixed --
 
 ```
 SKILL.md                  判据正本：反例优先 → 规则 → 网页硬规则 → 体量预算 → 上游声明
-references/               七卷细则（知识地图、排版通则、校验循环、字体授权、主题、光学修正、命名）
+references/               七卷细则（知识地图、排版通则、校验循环、字体授权、主题、光学修正）
 tools/
   cjk-typo.css            开箱样式（令牌 + .mx + 变体 + 暗色）
   cjk_spacing.js          浏览器端：逐文本节点包裹间隙与挤压盒
@@ -131,7 +131,7 @@ results/                  实测读数（JSON + Markdown）：Chrome 本体、�
 
 ## 名字与题图
 
-罗蛇／Rassarpa 取自谢灵运《罗浮山赋》的「罗，罗山也；浮，浮山也」——罗山与浮山相峙，一龟一蛇在图上对位，取名时把两边各取一字。来历见 [references/naming.md](references/naming.md)，只记录名字，不影响任何判据。
+罗蛇／Rassarpa 取自谢灵运《罗浮山赋》的「罗，罗山也；浮，浮山也」——罗山与浮山相峙，一龟一蛇在图上对位，取名时把两边各取一字。名字只记录来历，不影响任何判据。
 
 题图位图原件不进仓库；题诗、导出规则与字形说明（拉丁名用的是 Kosmos 艺术字，不是镜像）见 [docs/封面.md](docs/封面.md)。
 
