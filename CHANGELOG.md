@@ -2,6 +2,14 @@
 
 `[中文](CHANGELOG.md) · [English](CHANGELOG.en.md)`
 
+## 未发版（2026-11-27）· 分支保护：加 quality-gate 汇总门
+
+- **问题**：仓库此前无分支保护，任何人可直推 main；本地对账与 jsdom 回归再全，远端也没人拦。
+- **改法**：`selfcheck.yml` 末尾加 `quality-gate` 汇总 job（`needs: [checks, engines]`、`if: always()`）：自检与引擎对账都必须 success，红／取消／跳过一律判红。
+- **为什么不钉矩阵 job**：引擎矩阵成员名随引擎增减变化，一改必过检查就静默失效；汇总门名字稳定。
+- **配套**：main 分支保护 required `quality-gate`、`strict: true`、`enforce_admins: true`；此后走 PR，直推 main 会被拒。
+- **未动**：判据、`tools/selfcheck.py`、`tests/` 与卷册。
+
 ## 未发版（2026-11-23）
 
 外部代码审查（GitHub Copilot CLI 只读模式）1 中 2 低：

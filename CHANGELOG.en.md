@@ -2,6 +2,14 @@
 
 [中文](CHANGELOG.md) · English
 
+## Unreleased (2026-11-27) · Branch protection: add quality-gate aggregate
+
+- **Problem**: no branch protection; anyone could push straight to main, so the remote never checked anything.
+- **Change**: a `quality-gate` aggregate job at the end of `selfcheck.yml` (`needs: [checks, engines]`, `if: always()`): both must succeed; failure, cancellation, or skip turns it red.
+- **Why not pin the matrix jobs**: engine matrix names change as engines come and go, which silently expires a required check.
+- **Alongside**: main now requires `quality-gate`, `strict: true`, `enforce_admins: true`; everything goes through PRs.
+- **Untouched**: criteria, `tools/selfcheck.py`, `tests/`, and the volumes.
+
 ## Unreleased (2026-11-23)
 
 External code review (GitHub Copilot CLI, read-only), 1 medium / 2 low:
