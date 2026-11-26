@@ -102,3 +102,18 @@ jobs:
         with:
           name: engine-readings-linux
           path: results/ci
+
+  # 汇总门：分支保护只认这一条必过检查。任何一条 job 红、取消或跳过都判红。
+  # ⛔ 直接把矩阵 job 设成必过检查：成员名随 engine 变化，改名即静默失效。
+  quality-gate:
+    name: quality-gate
+    needs: [checks, engines]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: 汇总
+        shell: bash
+        run: |
+          echo "checks=${{ needs.checks.result }} engines=${{ needs.engines.result }}"
+          case "${{ needs.checks.result }}" in success) ;; *) echo "自检未通过：${{ needs.checks.result }}"; exit 1 ;; esac
+          case "${{ needs.engines.result }}" in success) ;; *) echo "引擎对账未通过：${{ needs.engines.result }}"; exit 1 ;; esac
